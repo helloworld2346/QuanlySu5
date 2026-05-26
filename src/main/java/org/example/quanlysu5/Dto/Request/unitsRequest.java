@@ -12,5 +12,6 @@ public class unitsRequest extends BaseEntity {
     String unitName;
     String unitCode;
     String unitType;
-    String parent;
+    String superior_unit;
+    String subordinate_units;
 }

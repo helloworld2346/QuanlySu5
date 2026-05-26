@@ -35,8 +35,11 @@ public class units extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parentId")
-    units parent;
+    units superior_unit;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parentId")
+    units subordinate_units;
     @Column(columnDefinition = "BOOLEAN  COMMENT 'trạng thái hoạt động'",nullable = false)
     Boolean isActive;
 }
