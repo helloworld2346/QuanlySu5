@@ -15,7 +15,7 @@ public enum ErrorCode {
     ACCOUNT_IS_EXIST(1003,"Trùng thông tin đăng nhập", HttpStatus.CONFLICT),
     ROLE_NOT_FOUND(1002,"Role Not Found", HttpStatus.NOT_FOUND),
     ROLE_IS_EXIST(1003,"Role Exist", HttpStatus.CONFLICT),
-    UNAUTHENTICATED(1004,"Khong du quyen truy cap",HttpStatus.UNAUTHORIZED),
+    UNAUTHENTICATED(1004,"Tên đăng nhập hoặc mật khẩu không đúng",HttpStatus.UNAUTHORIZED),
     UNCATEGORIZED(9999,"Uncategorized", HttpStatus.INTERNAL_SERVER_ERROR);
     ErrorCode(int Code,String Message, HttpStatusCode sponse){
         this.code = Code;

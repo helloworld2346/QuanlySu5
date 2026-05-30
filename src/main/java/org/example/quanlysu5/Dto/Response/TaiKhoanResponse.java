@@ -1,6 +1,5 @@
-package org.example.quanlysu5.Dto.Request;
+package org.example.quanlysu5.Dto.Response;
 
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -11,8 +10,10 @@ import org.example.quanlysu5.Module.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountRequest extends BaseEntity {
-    String accountName;
-    String userName;
-    String password;
+public class TaiKhoanResponse extends BaseEntity {
+    String idTaiKhoan;
+    String tenTaiKhoan;
+    String tenDangNhap;
+    String matKhau;
+    VaiTroResponse vaiTro;
 }

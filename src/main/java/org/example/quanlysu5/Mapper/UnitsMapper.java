@@ -1,43 +1,42 @@
 package org.example.quanlysu5.Mapper;
 
-import org.example.quanlysu5.Dto.Request.UnitsRequest;
-import org.example.quanlysu5.Dto.Response.UnitsResponse;
-import org.example.quanlysu5.Module.UnitsEntity;
+import org.example.quanlysu5.Dto.Request.DonviRequest;
+import org.example.quanlysu5.Dto.Response.DonViResponse;
+import org.example.quanlysu5.Module.DonViEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface UnitsMapper {
 
-    @Mapping(target = "superior_unit", ignore = true)
-    @Mapping(target = "subordinate_units", ignore = true)
+    @Mapping(target = "donViCha", ignore = true)
+    @Mapping(target = "donViCon", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
-    UnitsEntity toEntity(UnitsRequest request);
+    DonViEntity toEntity(DonviRequest request);
 
     @Mapping(
-            target = "superior_unit",
-            source = "superior_unit.unitName"
+            target = "donViCha",
+            source = "donViCha.tenDonvi"
     )
     @Mapping(
-            target = "subordinate_units",
-            expression = "java(mapSubordinateUnits(UnitsEntity.getSubordinate_units()))"
+            target = "donViCon",
+            source = "donViCon"
     )
-    UnitsResponse toResponse(UnitsEntity UnitsEntity);
+    DonViResponse toResponse(DonViEntity donViEntity);
 
-    default List<String> mapSubordinateUnits(List<UnitsEntity> unitsEntityList) {
+    default List<String> map(List<DonViEntity> donViEntities) {
 
-        if (unitsEntityList == null) {
+        if (donViEntities == null) {
             return List.of();
         }
 
-        return unitsEntityList.stream()
-                .map(UnitsEntity::getUnitName)
-                .collect(Collectors.toList());
+        return donViEntities.stream()
+                .map(DonViEntity::getTenDonvi)
+                .toList();
     }
 }

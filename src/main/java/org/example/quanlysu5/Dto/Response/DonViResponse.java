@@ -13,13 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UnitsResponse extends BaseEntity {
-    String unitName;
-    String unitCode;
-    unitType unitType;
-    String superior_unit;
-    int totalOfTroops;
-    int officer;
-    int soldier;
-    List<String> subordinate_units;
+public class DonViResponse extends BaseEntity {
+    String tenDonvi;
+    String donViCha;
+    int quanSoTong;
+    int quanSoHsqBs;
+    int quanSoSiQuan;
+    int quanSoQncn;
+    List<String> donViCon;
 }

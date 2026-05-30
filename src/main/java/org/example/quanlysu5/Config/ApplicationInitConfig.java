@@ -4,19 +4,17 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.example.quanlysu5.Dto.Response.AccountResponse;
-import org.example.quanlysu5.Module.AccountEntity;
-import org.example.quanlysu5.Module.FeatureEntity;
-import org.example.quanlysu5.Module.RoleEntity;
+import org.example.quanlysu5.Module.TaikhoanEntity;
+import org.example.quanlysu5.Module.VaiTroEntity;
 import org.example.quanlysu5.Repo.AccountRepo;
-import org.example.quanlysu5.Repo.FeatureRepo;
-import org.example.quanlysu5.Repo.RoleRepo;
+import org.example.quanlysu5.Repo.VaiTroRepo;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 
 @Configuration
@@ -26,37 +24,27 @@ import java.util.HashSet;
 public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder;
     @Bean
-    ApplicationRunner applicationRunner(AccountRepo accountRepository, RoleRepo roleRepository, AccountRepo accountRepo,
-                                        FeatureRepo featureRepo){
+    ApplicationRunner applicationRunner(AccountRepo accountRepository, VaiTroRepo vaiTroRepository, AccountRepo accountRepo){
         return args -> {
             // Initial data setup
-            if(accountRepository.findByAccountName("admin").isEmpty()) {
+            if(accountRepository.findByTenTaiKhoan("admin").isEmpty()) {
 
-                FeatureEntity featureThongKe=featureRepo.save(FeatureEntity.builder()
-                        .featureName("Thống Kê")
+                VaiTroEntity roleAdmin = VaiTroEntity.builder()
+                        .tenVaiTro("Ban Thông tin")
                         .isDeleted(false)
-                        .build());
-                FeatureEntity featureBaoBan=featureRepo.save(FeatureEntity.builder()
-                        .featureName("Báo Ban")
-                        .isDeleted(false)
-                        .build());
-
-                RoleEntity roleAdmin = RoleEntity.builder()
-                        .roleName("Ban Thông tin")
-                        .isDeleted(false)
+                        .tenChucnang(new HashSet<>(
+                                Arrays.asList("Báo Ban", "Thống Kê")
+                        ))
                         .build();
-                roleAdmin.setFeatures(new HashSet<>());
-                roleAdmin.getFeatures().add(featureThongKe);
-                roleAdmin.getFeatures().add(featureBaoBan);
-                        roleRepository.save(roleAdmin);
+                        vaiTroRepository.save(roleAdmin);
 
 
-                AccountEntity user=AccountEntity.builder()
-                        .accountName("admin")
-                        .userName("admin")
-                        .password(passwordEncoder.encode("admin"))
+                TaikhoanEntity user= TaikhoanEntity.builder()
+                        .tenTaiKhoan("admin")
+                        .tenDangNhap("admin")
+                        .matKhau(passwordEncoder.encode("admin"))
                         .createdAt(LocalDateTime.now())
-                        .role(roleAdmin)
+                        .vaiTro(roleAdmin)
                         .isDeleted(false)
                         .build();
 

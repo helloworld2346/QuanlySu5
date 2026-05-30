@@ -5,10 +5,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.example.quanlysu5.Dto.Response.UnitsResponse;
+import org.example.quanlysu5.Dto.Response.DonViResponse;
 import org.example.quanlysu5.Mapper.UnitsMapper;
-import org.example.quanlysu5.Repo.unitsRepo;
-import org.example.quanlysu5.Service.unitService;
+import org.example.quanlysu5.Repo.DonViRepo;
+import org.example.quanlysu5.Service.DonViService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,19 +20,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class UnitServiceImpl implements unitService {
+public class DonViServiceImpl implements DonViService {
 
-    unitsRepo unitsRepo;
+    DonViRepo DonViRepo;
     UnitsMapper unitsMapper;
     @Override
-    public Page<UnitsResponse> toUnitsPage(Pageable page) {
-        return unitsRepo.findAllByIsDeleted(false,page)
+    public Page<DonViResponse> toUnitsPage(Pageable page) {
+        return DonViRepo.findAllByIsDeleted(false,page)
                 .map(unitsMapper::toResponse);
     }
 
     @Override
-    public List<UnitsResponse> toUnitsList() {
-        return  unitsRepo.findAll().stream()
+    public List<DonViResponse> toUnitsList() {
+        return  DonViRepo.findAll().stream()
                 .map(unitsMapper::toResponse).collect(Collectors.toList());
     }
 

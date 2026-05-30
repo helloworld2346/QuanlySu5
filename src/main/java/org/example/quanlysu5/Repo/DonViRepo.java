@@ -1,15 +1,19 @@
 package org.example.quanlysu5.Repo;
 
-import org.example.quanlysu5.Module.UnitsEntity;
+import org.example.quanlysu5.Module.DonViEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
-public interface unitsRepo extends JpaRepository<UnitsEntity, String>, JpaSpecificationExecutor<UnitsEntity> {
-    Page<UnitsEntity> findAllByIsDeleted(Boolean isDeleted, Pageable pageable);
+public interface DonViRepo extends JpaRepository<DonViEntity, String>, JpaSpecificationExecutor<DonViEntity> {
+    Page<DonViEntity> findAllByIsDeleted(Boolean isDeleted, Pageable pageable);
+    List<DonViEntity> findByDonViCha(DonViEntity donViCha);
     //Page<UnitsEntity> findAllbyPage(Boolean isDeleted, Pageable pageable);
 
 }

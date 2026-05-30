@@ -18,7 +18,7 @@ import org.example.quanlysu5.Dto.Response.AuthenticationResponse;
 import org.example.quanlysu5.Dto.Response.IntrospectResponse;
 import org.example.quanlysu5.Exception.AppException;
 import org.example.quanlysu5.Exception.ErrorCode;
-import org.example.quanlysu5.Module.AccountEntity;
+import org.example.quanlysu5.Module.TaikhoanEntity;
 import org.example.quanlysu5.Module.InvalidateTokenEntity;
 import org.example.quanlysu5.Repo.AccountRepo;
 import org.example.quanlysu5.Repo.InvalidateTokenRepo;
@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
@@ -70,10 +69,10 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         var account = accountRepo
-                .findByAccountName(request.getUserName())
+                .findByTenTaiKhoan(request.getUserName())
                 .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
 
-        boolean authenticated = passwordEncoder.matches(request.getPassword(), account.getPassword());
+        boolean authenticated = passwordEncoder.matches(request.getPassword(), account.getMatKhau());
 
         if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
@@ -112,18 +111,18 @@ public class AuthenticationService {
         var userName = signedJWT.getJWTClaimsSet().getClaim("userName").toString();
 
         var user =
-                accountRepo.findByAccountName(userName).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+                accountRepo.findByTenTaiKhoan(userName).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         var token = generateToken(user,VALID_DURATION);
 
         return AuthenticationResponse.builder().token(token).build();
     }
 
-    private String generateToken(AccountEntity account, Long Duration) {
+    private String generateToken(TaikhoanEntity account, Long Duration) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(account.getAccountId())
+                .subject(account.getIdTaiKhoan())
                 .issuer("")
                 .issueTime(new Date())
                 .expirationTime(new Date(
@@ -131,7 +130,7 @@ public class AuthenticationService {
                 ))
                 .jwtID(UUID.randomUUID().toString())
                 .claim("scope", buildScope(account))
-                .claim("userName", account.getUserName())
+                .claim("userName", account.getTenDangNhap())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -217,14 +216,13 @@ public class AuthenticationService {
 //
 //        ;
 //    }
-    private String buildScope(AccountEntity account) {
+    private String buildScope(TaikhoanEntity account) {
         StringJoiner stringJoiner = new StringJoiner(" ");
 
-        if (account.getRole() != null)
+        if (account.getVaiTro() != null)
         {
-            account.getRole().getFeatures().forEach(featureEntity -> {
-                log.info(featureEntity.getFeatureName());
-                stringJoiner.add("ROLE_" + featureEntity.getFeatureName());
+            account.getVaiTro().getTenChucnang().forEach(featureEntity -> {
+                stringJoiner.add("ROLE_" + featureEntity);
 
             });
         }
