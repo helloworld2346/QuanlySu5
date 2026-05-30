@@ -1,23 +1,21 @@
 package org.example.quanlysu5.Module;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @SuperBuilder
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountEntity {
+public class AccountEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "accountId",columnDefinition = "VARCHAR(36) COMMENT `Id của tài khoản`")
+    @Column(name = "accountId",columnDefinition = "VARCHAR(36) COMMENT 'Id của tài khoản'")
     String accountId;
 
     @Column(name = "accountName",columnDefinition = "VARCHAR(255) COMMENT 'tên tài khoản'", nullable = false)
@@ -28,6 +26,10 @@ public class AccountEntity {
 
     @Column(name = "password",columnDefinition = "VARCHAR(255) COMMENT 'mật khẩu tài khoản'", nullable = false)
     String password;
+
+    @ManyToOne
+    @JoinColumn(name = "roleId",nullable = false)
+    RoleEntity role;
 
 
 

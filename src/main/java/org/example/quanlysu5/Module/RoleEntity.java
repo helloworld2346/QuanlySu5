@@ -1,21 +1,20 @@
 package org.example.quanlysu5.Module;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @SuperBuilder
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -23,10 +22,10 @@ public class RoleEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "roleId",columnDefinition = "VARCHAR(36) COMMENT `Id của row quyền`")
+    @Column(name = "roleId",columnDefinition = "VARCHAR(36) COMMENT 'Id của row quyền'")
     String roleId;
 
-    @Column(name = "role_name",columnDefinition = "VARCHAR(36) COMMENT `tên quyền`")
+    @Column(name = "role_name",columnDefinition = "VARCHAR(36) COMMENT 'tên quyền'")
     String roleName;
     @ManyToMany
     @JoinTable(
@@ -36,4 +35,6 @@ public class RoleEntity extends BaseEntity{
     )
     Set<FeatureEntity> features = new HashSet<>();
 
+    @OneToMany(mappedBy="role")
+    List<AccountEntity> accounts;
 }

@@ -5,9 +5,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.example.quanlysu5.Dto.Response.unitsResponse;
-import org.example.quanlysu5.Mapper.unitsMapper;
-import org.example.quanlysu5.Module.units;
+import org.example.quanlysu5.Dto.Response.UnitsResponse;
+import org.example.quanlysu5.Mapper.UnitsMapper;
 import org.example.quanlysu5.Repo.unitsRepo;
 import org.example.quanlysu5.Service.unitService;
 import org.springframework.data.domain.Page;
@@ -21,19 +20,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class unitServiceImpl implements unitService {
+public class UnitServiceImpl implements unitService {
 
     unitsRepo unitsRepo;
-    unitsMapper unitsMapper;
+    UnitsMapper unitsMapper;
     @Override
-    public Page<unitsResponse> toUnitsPage(Pageable page) {
+    public Page<UnitsResponse> toUnitsPage(Pageable page) {
         return unitsRepo.findAllByIsDeleted(false,page)
                 .map(unitsMapper::toResponse);
     }
 
     @Override
-    public List<unitsResponse> toUnitsList() {
+    public List<UnitsResponse> toUnitsList() {
         return  unitsRepo.findAll().stream()
                 .map(unitsMapper::toResponse).collect(Collectors.toList());
     }
+
 }

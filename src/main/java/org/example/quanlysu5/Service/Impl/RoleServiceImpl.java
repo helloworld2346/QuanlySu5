@@ -41,7 +41,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleEntity getRoleByName(String name) {
-        return roleRepo.findByRoleName(name);
+        return roleRepo.findByRoleName(name)
+                .orElseThrow(()->new AppException(ErrorCode.ROLE_NOT_FOUND));
     }
 
     @Override

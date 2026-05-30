@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.example.quanlysu5.Enum.unitType;
 import org.example.quanlysu5.Module.BaseEntity;
 
-@Builder
-public class unitsRequest extends BaseEntity {
-    String unitName;
-    String unitCode;
-    String unitType;
-    String superior_unit;
-    String subordinate_units;
+@SuperBuilder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class AccountRequest extends BaseEntity {
+    String accountName;
+    String userName;
+    String password;
 }

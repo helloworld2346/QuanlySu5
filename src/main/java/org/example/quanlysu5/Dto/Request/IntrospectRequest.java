@@ -1,20 +1,17 @@
 package org.example.quanlysu5.Dto.Request;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.example.quanlysu5.Module.FeatureEntity;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @SuperBuilder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoleRequest {
-    String roleName;
-
+public class IntrospectRequest {
+    String token;
 }

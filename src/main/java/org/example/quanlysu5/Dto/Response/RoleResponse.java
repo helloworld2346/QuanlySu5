@@ -9,7 +9,11 @@ import org.example.quanlysu5.Module.FeatureEntity;
 import java.util.HashSet;
 import java.util.Set;
 
-@Builder
+@SuperBuilder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleResponse {
 
     String roleId;

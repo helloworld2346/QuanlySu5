@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatusCode;
 @NoArgsConstructor
 public enum ErrorCode {
     INVALID_KEY(1001,"Invalid key", HttpStatus.BAD_REQUEST),
+    FEATURE_NOT_FOUND(1002,"Feature Not Found", HttpStatus.NOT_FOUND),
+    FEATURE_IS_EXIST(1003,"Feature Exist", HttpStatus.CONFLICT),
+    ACCOUNT_NOT_FOUND(1002,"Không tìm thấy thông tin tài khoản", HttpStatus.NOT_FOUND),
+    ACCOUNT_IS_EXIST(1003,"Trùng thông tin đăng nhập", HttpStatus.CONFLICT),
     ROLE_NOT_FOUND(1002,"Role Not Found", HttpStatus.NOT_FOUND),
     ROLE_IS_EXIST(1003,"Role Exist", HttpStatus.CONFLICT),
     UNAUTHENTICATED(1004,"Khong du quyen truy cap",HttpStatus.UNAUTHORIZED),
