@@ -4,9 +4,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.example.quanlysu5.Module.DonViEntity;
 import org.example.quanlysu5.Module.TaikhoanEntity;
 import org.example.quanlysu5.Module.VaiTroEntity;
 import org.example.quanlysu5.Repo.AccountRepo;
+import org.example.quanlysu5.Repo.DonViRepo;
 import org.example.quanlysu5.Repo.VaiTroRepo;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +26,8 @@ import java.util.HashSet;
 public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder;
     @Bean
-    ApplicationRunner applicationRunner(AccountRepo accountRepository, VaiTroRepo vaiTroRepository, AccountRepo accountRepo){
+    ApplicationRunner applicationRunner(AccountRepo accountRepository, VaiTroRepo vaiTroRepository, AccountRepo accountRepo,
+                                        DonViRepo donViRepo){
         return args -> {
             // Initial data setup
             if(accountRepository.findByTenTaiKhoan("admin").isEmpty()) {
@@ -47,7 +50,16 @@ public class ApplicationInitConfig {
                         .vaiTro(roleAdmin)
                         .isDeleted(false)
                         .build();
-
+                DonViEntity donviEntity=DonViEntity.builder()
+                        .tenDonvi("Sư 5")
+                        .hoatDong(true)
+                        .maDonVi("GS003")
+                        .quanSoTong(0)
+                        .quanSoHsqBs(0)
+                        .quanSoSiQuan(0)
+                        .quanSoQncn(0)
+                        .build();
+                donViRepo.save(donviEntity);
                 accountRepo.save(user);
             }
 

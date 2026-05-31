@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +22,12 @@ public class CaTrucEntity extends BaseEntity{
     @Column(name = "id_catruc",columnDefinition = "VARCHAR(36) COMMENT 'Id của ca trực'")
     String idCatruc;
 
-    @Column(columnDefinition = "DATE COMMENT 'ngày trực'", nullable = false)
-    Date ngaytruc;
+    @Column(
+            name = "ngay_truc",
+            nullable = false,
+            unique = true
+    )
+    LocalDate ngaytruc;
 
     @Column(columnDefinition = "VARCHAR(255) COMMENT 'mật khẩu'", nullable = false)
     String matkhau;

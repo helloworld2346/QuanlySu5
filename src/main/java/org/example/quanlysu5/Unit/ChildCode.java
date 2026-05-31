@@ -1,10 +1,14 @@
 package org.example.quanlysu5.Unit;
 
+import lombok.RequiredArgsConstructor;
 import org.example.quanlysu5.Module.DonViEntity;
 import org.example.quanlysu5.Repo.DonViRepo;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
+@RequiredArgsConstructor
 public class ChildCode {
     DonViRepo donViRepo;
     public String generateChildCode(DonViEntity parent) {
@@ -24,5 +28,24 @@ public class ChildCode {
         return parent.getMaDonVi()
                 + "."
                 + String.format("%03d", next);
+    }
+    public String generateRootCode() {
+
+        List<DonViEntity> rootUnits =
+                donViRepo.findByDonViChaIsNull();
+
+        if(rootUnits.isEmpty()) {
+            return "GS001";
+        }
+
+        int max = rootUnits.stream()
+                .map(DonViEntity::getMaDonVi)
+                .filter(code -> code.startsWith("GS"))
+                .map(code -> code.substring(2))
+                .mapToInt(Integer::parseInt)
+                .max()
+                .orElse(0);
+
+        return "GS" + String.format("%03d", max + 1);
     }
 }

@@ -5,10 +5,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.example.quanlysu5.Dto.Request.DonviRequest;
 import org.example.quanlysu5.Dto.Response.DonViResponse;
+import org.example.quanlysu5.Exception.AppException;
+import org.example.quanlysu5.Exception.ErrorCode;
 import org.example.quanlysu5.Mapper.UnitsMapper;
+import org.example.quanlysu5.Module.DonViEntity;
 import org.example.quanlysu5.Repo.DonViRepo;
 import org.example.quanlysu5.Service.DonViService;
+import org.example.quanlysu5.Unit.ChildCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DonViServiceImpl implements DonViService {
 
+    ChildCode childCode;
     DonViRepo DonViRepo;
     UnitsMapper unitsMapper;
     @Override
@@ -34,6 +40,39 @@ public class DonViServiceImpl implements DonViService {
     public List<DonViResponse> toUnitsList() {
         return  DonViRepo.findAll().stream()
                 .map(unitsMapper::toResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public DonViResponse createDonVi(DonviRequest request) {
+
+        DonViEntity donVi = unitsMapper.toEntity(request);
+
+        // Nếu có đơn vị cha
+        if (request.getDonViCha() != null) {
+
+            DonViEntity donViCha = DonViRepo.findById(request.getDonViCha())
+                    .orElseThrow(() ->
+                            new AppException(ErrorCode.DONVI_NOT_FOUND));
+
+            donVi.setDonViCha(donViCha);
+
+            // Sinh mã đơn vị
+            String maDonVi = childCode.generateChildCode(donViCha);
+            donVi.setMaDonVi(maDonVi);
+
+        } else {
+
+            // Đơn vị gốc (sư đoàn)
+            String maDonVi = childCode.generateRootCode();
+            donVi.setMaDonVi(maDonVi);
+        }
+
+        donVi.setHoatDong(true);
+        donVi.setIsDeleted(false);
+
+        DonViEntity saved = DonViRepo.save(donVi);
+
+        return unitsMapper.toResponse(saved);
     }
 
 }

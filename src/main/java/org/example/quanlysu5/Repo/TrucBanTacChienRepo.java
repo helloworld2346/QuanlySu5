@@ -1,6 +1,7 @@
 package org.example.quanlysu5.Repo;
 
 import org.example.quanlysu5.Module.DonViEntity;
+import org.example.quanlysu5.Module.TrucBanTacChienEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,10 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DonViRepo extends JpaRepository<DonViEntity, String>, JpaSpecificationExecutor<DonViEntity> {
-    Page<DonViEntity> findAllByIsDeleted(Boolean isDeleted, Pageable pageable);
-    List<DonViEntity> findByDonViCha(DonViEntity donViCha);
-    List<DonViEntity> findByDonViChaIsNull();
+public interface TrucBanTacChienRepo extends JpaRepository<TrucBanTacChienEntity, String>, JpaSpecificationExecutor<TrucBanTacChienEntity> {
+    List<TrucBanTacChienEntity> findAllByIsDeleted(boolean isDeleted);
+    Optional<TrucBanTacChienEntity> findByTenNguoitruc(String tenNguoitruc);
+    Optional<TrucBanTacChienEntity> findBySodienthoaiAndIsDeleted(String sodienthoai,boolean isdeleted);
     //Page<UnitsEntity> findAllbyPage(Boolean isDeleted, Pageable pageable);
 
 }

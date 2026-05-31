@@ -1,6 +1,8 @@
 package org.example.quanlysu5.Service;
 
+import org.example.quanlysu5.Dto.Request.DonviRequest;
 import org.example.quanlysu5.Dto.Response.DonViResponse;
+import org.example.quanlysu5.Repo.DonViRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,5 +13,5 @@ import java.util.List;
 public interface DonViService {
     Page<DonViResponse> toUnitsPage(Pageable page);
     List<DonViResponse> toUnitsList();
-
+    DonViResponse createDonVi(DonviRequest donviRequest);
 }
