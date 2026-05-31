@@ -20,5 +20,7 @@ public interface DonBaoCaoMapper {
     DonBaoCaoEntity toEntity(DonBaoCaoRequest request);
 
     DonBaoCaoResponse toResponse(DonBaoCaoEntity role);
+    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "donVi", ignore = true)
     void update(@MappingTarget DonBaoCaoEntity role, DonBaoCaoForm update);
 }

@@ -16,6 +16,7 @@ import java.util.List;
 public interface TrucBanTacChienService {
     List<TrucBanTacChienResponse> getAllTrucBanTacChienToResponse();
     TrucBanTacChienEntity getByIdNguoiTruc(String idNguoiTruc);
+    TrucBanTacChienResponse getByIdNguoiTrucResponse(String idNguoiTruc);
     TrucBanTacChienResponse getByTenNguoiTruc(String tenNguoiTruc);
     TrucBanTacChienResponse createNguoiTruc(TrucBanTacChienRequest trucBanTacChienRequest);
     TrucBanTacChienResponse updateNguoiTruc(String idNguoiTruc, TrucBanTacChienForm update);

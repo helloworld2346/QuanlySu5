@@ -12,6 +12,7 @@ import java.util.List;
 public interface CaTrucService {
     List<CaTrucResponse> getAllCaTrucToResponse();
     CaTrucEntity getByIdCaTruc(String idNguoiTruc);
+    CaTrucResponse getByIdCaTrucResponse(String idNguoiTruc);
     CaTrucResponse createCaTruc(CaTrucRequest CaTrucRequest);
     CaTrucResponse updateCaTruc(String idCaTruc, CaTrucForm update);
     void deleteCaTruc(String idCaTruc);

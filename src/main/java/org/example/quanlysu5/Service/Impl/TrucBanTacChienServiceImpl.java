@@ -43,6 +43,11 @@ public class TrucBanTacChienServiceImpl implements TrucBanTacChienService {
     }
 
     @Override
+    public TrucBanTacChienResponse getByIdNguoiTrucResponse(String idNguoiTruc) {
+        return trucBanTacChienMapper.toResponse(getByIdNguoiTruc(idNguoiTruc));
+    }
+
+    @Override
     public TrucBanTacChienResponse getByTenNguoiTruc(String tenNguoiTruc) {
         return trucBanTacChienMapper.toResponse(trucBanTacChienRepo.findByTenNguoitruc(tenNguoiTruc)
                 .orElseThrow(()->new AppException(ErrorCode.TRUCBANTACCHIEN_NOT_FOUND)));

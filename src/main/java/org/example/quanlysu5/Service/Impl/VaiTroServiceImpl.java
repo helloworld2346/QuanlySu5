@@ -51,13 +51,14 @@ public class VaiTroServiceImpl implements VaiTroService {
     }
 
     @Override
-    public VaiTroEntity createRole(VaiTroRequest vaiTroRequest) {
+    public VaiTroResponse createRole(VaiTroRequest vaiTroRequest) {
         VaiTroEntity vaiTroEntity = vaiTroMapper.toEntity(vaiTroRequest);
         vaiTroEntity.setIsDeleted(false);
         vaiTroEntity.setCreatedAt(LocalDateTime.now());
-        if(getRoleByName(vaiTroEntity.getTenVaiTro())!=null){
+        log.info(vaiTroRequest.getTenVaiTro().toString());
+        if(vaiTroRepo.findByTenVaiTro(vaiTroEntity.getTenVaiTro()).isPresent()){
             throw new AppException(ErrorCode.ROLE_IS_EXIST);
         }
-        return vaiTroRepo.save(vaiTroEntity);
+        return vaiTroMapper.toResponse(vaiTroRepo.save(vaiTroEntity));
     }
 }

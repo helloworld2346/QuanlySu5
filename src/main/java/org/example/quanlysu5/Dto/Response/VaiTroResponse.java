@@ -11,8 +11,8 @@ import lombok.experimental.SuperBuilder;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VaiTroResponse {
 
-    String roleId;
-    String roleName;
+    String idVaiTro;
+    String tenVaiTro;
     //Set<FeatureEntity> features = new HashSet<>();
 
 }

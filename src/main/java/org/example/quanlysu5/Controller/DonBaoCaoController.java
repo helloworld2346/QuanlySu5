@@ -1,0 +1,87 @@
+package org.example.quanlysu5.Controller;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.example.quanlysu5.Dto.ApiResponse;
+import org.example.quanlysu5.Dto.Request.DonBaoCaoRequest;
+import org.example.quanlysu5.Dto.Response.DonBaoCaoResponse;
+import org.example.quanlysu5.Form.DonBaoCaoForm;
+import org.example.quanlysu5.Service.DonBaoCaoService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/donbaocao")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
+@Tag(name = "Đơn Báo Cáo API", description = "Quản lý đơn báo cáo quân số")
+public class DonBaoCaoController {
+
+    DonBaoCaoService donBaoCaoService;
+
+    @GetMapping
+    public ApiResponse<List<DonBaoCaoResponse>> getAllDonBaoCao() {
+
+        return ApiResponse.<List<DonBaoCaoResponse>>builder()
+                .Result(donBaoCaoService.getAllDonBaoCaoToResponse())
+                .message("Lấy danh sách đơn báo cáo thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<DonBaoCaoResponse> getDonBaoCaoById(
+            @PathVariable String id) {
+
+        return ApiResponse.<DonBaoCaoResponse>builder()
+                .Result(donBaoCaoService.getByIdDonBaoCaoReponse(id))
+                .message("Lấy thông tin đơn báo cáo thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
+
+    @PostMapping
+    public ApiResponse<DonBaoCaoResponse> createDonBaoCao(
+            @RequestBody DonBaoCaoRequest request) {
+
+        return ApiResponse.<DonBaoCaoResponse>builder()
+                .Result(donBaoCaoService.createDonBaoCao(request))
+                .message("Tạo đơn báo cáo thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
+
+    @PutMapping("/{id}")
+    public ApiResponse<DonBaoCaoResponse> updateDonBaoCao(
+            @PathVariable String id,
+            @RequestBody DonBaoCaoForm update) {
+
+        return ApiResponse.<DonBaoCaoResponse>builder()
+                .Result(donBaoCaoService.updateDonBaoCao(id, update))
+                .message("Cập nhật đơn báo cáo thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<Void> deleteDonBaoCao(
+            @PathVariable String id) {
+
+        donBaoCaoService.deleteDonBaoCao(id);
+
+        return ApiResponse.<Void>builder()
+                .message("Xóa đơn báo cáo thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
+}

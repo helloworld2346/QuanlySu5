@@ -58,8 +58,11 @@ public class ApplicationInitConfig {
                         .quanSoHsqBs(0)
                         .quanSoSiQuan(0)
                         .quanSoQncn(0)
+                        .isDeleted(false)
                         .build();
+
                 donViRepo.save(donviEntity);
+                user.setDonVi(donviEntity);
                 accountRepo.save(user);
             }
 

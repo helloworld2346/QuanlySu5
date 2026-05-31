@@ -14,6 +14,7 @@ import java.util.List;
 public interface DonBaoCaoService {
     List<DonBaoCaoResponse> getAllDonBaoCaoToResponse();
     DonBaoCaoEntity getByIdDonBaoCao(String idNguoiTruc);
+    DonBaoCaoResponse getByIdDonBaoCaoReponse(String idNguoiTruc);
     DonBaoCaoResponse createDonBaoCao(DonBaoCaoRequest DonBaoCaoRequest);
     DonBaoCaoResponse updateDonBaoCao(String idDonBaoCao, DonBaoCaoForm update);
     void deleteDonBaoCao(String idDonBaoCao);

@@ -40,6 +40,11 @@ public class TrucChiHuyServiceImpl implements TrucChiHuyService {
     }
 
     @Override
+    public TrucChiHuyResponse getByIdNguoiTrucResponse(String idNguoiTruc) {
+        return TrucChiHuyMapper.toResponse(getByIdNguoiTruc(idNguoiTruc));
+    }
+
+    @Override
     public TrucChiHuyResponse getByTenNguoiTruc(String tenNguoiTruc) {
         return TrucChiHuyMapper.toResponse(TrucChiHuyRepo.findByTenNguoitruc(tenNguoiTruc)
                 .orElseThrow(()->new AppException(ErrorCode.TRUCCHIHUY_NOT_FOUND)));

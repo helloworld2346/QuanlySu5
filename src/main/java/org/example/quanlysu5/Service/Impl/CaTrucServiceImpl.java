@@ -39,6 +39,11 @@ public class CaTrucServiceImpl implements CaTrucService {
     }
 
     @Override
+    public CaTrucResponse getByIdCaTrucResponse(String idNguoiTruc) {
+        return caTrucMapper.toResponse(getByIdCaTruc(idNguoiTruc));
+    }
+
+    @Override
     public CaTrucResponse createCaTruc(CaTrucRequest request) {
 
         if (caTrucRepo.existsByNgaytruc(request.getNgaytruc())) {

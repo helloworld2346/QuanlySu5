@@ -33,5 +33,5 @@ public class TrucChiHuyEntity extends BaseEntity {
     String sodienthoai;
 
     @OneToMany(mappedBy="trucChiHuy")
-    List<CaTrucEntity> trucChiHuy;
+    List<CaTrucEntity> caTruc;
 }

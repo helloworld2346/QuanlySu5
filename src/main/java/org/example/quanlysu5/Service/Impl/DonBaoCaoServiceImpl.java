@@ -39,6 +39,11 @@ public class DonBaoCaoServiceImpl implements DonBaoCaoService {
     }
 
     @Override
+    public DonBaoCaoResponse getByIdDonBaoCaoReponse(String idNguoiTruc) {
+        return DonBaoCaoMapper.toResponse(getByIdDonBaoCao(idNguoiTruc));
+    }
+
+    @Override
     public DonBaoCaoResponse createDonBaoCao(DonBaoCaoRequest request) {
 
         DonBaoCaoEntity DonBaoCaoEntity = DonBaoCaoMapper.toEntity(request);

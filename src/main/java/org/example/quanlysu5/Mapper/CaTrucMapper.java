@@ -15,8 +15,12 @@ public interface CaTrucMapper {
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "donBaoCao", ignore = true)
+    @Mapping(target = "trucBanTacChien", ignore = true)
+    @Mapping(target = "trucChiHuy", ignore = true)
     CaTrucEntity toEntity(CaTrucRequest request);
 
     CaTrucResponse toResponse(CaTrucEntity role);
+    @Mapping(target = "trucBanTacChien", ignore = true)
+    @Mapping(target = "trucChiHuy", ignore = true)
     void update(@MappingTarget CaTrucEntity role, CaTrucForm update);
 }
