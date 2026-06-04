@@ -47,7 +47,7 @@ public class AccountController {
                 .success(true)
                 .build();
     }
-    @PostMapping("/getAll")
+    @GetMapping("/getAll")
     public ApiResponse<List<TaiKhoanResponse>> getAllTaiKhoan(){
         return ApiResponse.<List<TaiKhoanResponse>>builder()
                 .code(0)

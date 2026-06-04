@@ -1,6 +1,7 @@
 package org.example.quanlysu5.Service;
 
 import org.example.quanlysu5.Dto.Request.DonBaoCaoRequest;
+import org.example.quanlysu5.Dto.Request.GhiChuRequest;
 import org.example.quanlysu5.Dto.Response.DonBaoCao.DonBaoCaoResponse;
 import org.example.quanlysu5.Form.DonBaoCaoForm;
 import org.example.quanlysu5.Module.DonBaoCaoEntity;
@@ -20,7 +21,7 @@ public interface DonBaoCaoService {
     DonBaoCaoResponse getAllDonBaoCaoByDonViApprove(String idDonVi, LocalDate ngayLoc);
 
     DonBaoCaoResponse updateStatusApprove(String idDonBaoCao);
-    DonBaoCaoResponse updateStatusRefuse(String idDonBaoCao);
+    DonBaoCaoResponse updateStatusRefuse(String idDonBaoCao, GhiChuRequest ghichu);
     DonBaoCaoResponse updateDonBaoCao(String idDonBaoCao, DonBaoCaoForm update);
     void deleteDonBaoCao(String idDonBaoCao);
 }

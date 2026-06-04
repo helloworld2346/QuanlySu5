@@ -1,4 +1,5 @@
-package org.example.quanlysu5.Dto.Request;
+package org.example.quanlysu5.Dto.Response.Notification;
+
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -6,16 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.example.quanlysu5.Module.BaseEntity;
+
+import java.time.LocalDateTime;
 
 @SuperBuilder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TrucChiHuyRequest {
-    String tenNguoitruc;
-    String capbacNguoitruc;
-    String chucvuNguoitruc;
-    String sodienthoai;
+public class NotificationResponse {
+
+    private String title;
+
+    private String message;
+
+    private String type;
+
+    private LocalDateTime time;
 }

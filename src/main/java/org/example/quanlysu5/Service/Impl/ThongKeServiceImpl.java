@@ -31,7 +31,7 @@ public class ThongKeServiceImpl implements ThongKeService {
         LocalDateTime end = ngayBaoCao.atTime(23,59,59);
 
         List<DonBaoCaoEntity> reports =
-                donBaoCaoRepo.findAllByThoiGianBaoCaoBetween(start,end);
+                donBaoCaoRepo.findAllCap2ByThoiGian("GS003",start,end);
 
         // ======================
         // Tổng hợp quân số
@@ -217,7 +217,7 @@ public class ThongKeServiceImpl implements ThongKeService {
         LocalDateTime end = ngay.atTime(23,59,59);
 
         return donBaoCaoRepo
-                .findAllByThoiGianBaoCaoBetween(start,end)
+                .findAllCap2ByThoiGian("GS003",start,end)
                 .stream()
                 .mapToInt(DonBaoCaoEntity::getQuanSoHienDien)
                 .sum();

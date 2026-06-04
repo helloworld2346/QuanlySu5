@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.example.quanlysu5.Dto.ApiResponse;
 import org.example.quanlysu5.Dto.Request.DonBaoCaoRequest;
+import org.example.quanlysu5.Dto.Request.GhiChuRequest;
 import org.example.quanlysu5.Dto.Response.DonBaoCao.DonBaoCaoResponse;
 import org.example.quanlysu5.Form.DonBaoCaoForm;
 import org.example.quanlysu5.Service.DonBaoCaoService;
@@ -92,14 +93,14 @@ public class DonBaoCaoController {
 
     @PutMapping("/refuse/{idDonBaoCao}")
     public ApiResponse<DonBaoCaoResponse> refuseDonBaoCao(
-            @PathVariable String idDonBaoCao) {
+            @PathVariable String idDonBaoCao, @RequestBody GhiChuRequest ghiChuRequest) {
 
         return ApiResponse.<DonBaoCaoResponse>builder()
                 .success(true)
                 .code(0)
                 .message("Từ chối đơn báo cáo thành công")
                 .Result(
-                        donBaoCaoService.updateStatusRefuse(idDonBaoCao)
+                        donBaoCaoService.updateStatusRefuse(idDonBaoCao,ghiChuRequest)
                 )
                 .build();
     }

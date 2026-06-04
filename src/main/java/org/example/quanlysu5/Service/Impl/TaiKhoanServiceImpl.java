@@ -20,6 +20,7 @@ import org.example.quanlysu5.Service.VaiTroService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         taikhoanEntity.setDonVi(donViEntity);
         taikhoanEntity.setVaiTro(vaiTroEntity);
         taikhoanEntity.setIsDeleted(false);
+        taikhoanEntity.setCreatedAt(LocalDateTime.now());
         return taiKhoanMapper.toResponse(taiKhoanRepo.save(taikhoanEntity));
     }
 }

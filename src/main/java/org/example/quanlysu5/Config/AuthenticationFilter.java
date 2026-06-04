@@ -39,6 +39,7 @@ public class AuthenticationFilter {
             "/api/auth/login",
             "/inventory",
             "/inventory/sale",
+            "/ws",
             // SWAGGER
             "/v3/api-docs/**",
             "/swagger-ui/**",

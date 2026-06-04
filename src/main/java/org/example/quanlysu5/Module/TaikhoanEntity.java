@@ -34,7 +34,7 @@ public class TaikhoanEntity extends BaseEntity{
     VaiTroEntity vaiTro;
 
     @ManyToOne
-    @JoinColumn(name = "idDonVi",nullable = false)
+    @JoinColumn(name = "maDonVi",nullable = false)
     DonViEntity donVi;
 
 

@@ -19,6 +19,7 @@ import org.example.quanlysu5.Service.TrucBanTacChienService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,6 +59,7 @@ public class TrucBanTacChienServiceImpl implements TrucBanTacChienService {
     public TrucBanTacChienResponse createNguoiTruc(TrucBanTacChienRequest trucBanTacChienRequest) {
         TrucBanTacChienEntity trucBanTacChien=trucBanTacChienMapper.toEntity(trucBanTacChienRequest);
         trucBanTacChien.setIsDeleted(false);
+        trucBanTacChien.setCreatedAt(LocalDateTime.now());
         if(trucBanTacChienRepo.findBySodienthoaiAndIsDeleted(trucBanTacChien.getSodienthoai(),false)==null){
             throw new AppException(ErrorCode.TRUCBANTACCHIEN_IS_EXIST);
         }

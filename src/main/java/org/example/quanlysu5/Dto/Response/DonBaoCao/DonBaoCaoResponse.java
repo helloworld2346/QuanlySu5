@@ -26,6 +26,7 @@ public class DonBaoCaoResponse {
     Integer quanSoTong;
     Integer quanSoHienDien;
     Integer quanSoVang;
+    String  ghiChu;
     Status status;
     LocalDateTime thoiGianBaoCao;
     String  thongTinVang;

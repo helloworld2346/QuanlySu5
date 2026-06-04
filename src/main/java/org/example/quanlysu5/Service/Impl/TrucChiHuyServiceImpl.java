@@ -19,6 +19,7 @@ import org.example.quanlysu5.Service.TrucChiHuyService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,6 +60,7 @@ public class TrucChiHuyServiceImpl implements TrucChiHuyService {
     public TrucChiHuyResponse createNguoiTruc(TrucChiHuyRequest TrucChiHuyRequest) {
         TrucChiHuyEntity TrucChiHuy=TrucChiHuyMapper.toEntity(TrucChiHuyRequest);
         TrucChiHuy.setIsDeleted(false);
+        TrucChiHuy.setCreatedAt(LocalDateTime.now());
         if(TrucChiHuyRepo.findBySodienthoaiAndIsDeleted(TrucChiHuy.getSodienthoai(),false)==null){
             throw new AppException(ErrorCode.TRUCCHIHUY_IS_EXIST);
         }

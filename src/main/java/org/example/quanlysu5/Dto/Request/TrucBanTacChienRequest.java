@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TrucBanTacChienRequest extends BaseEntity {
+public class TrucBanTacChienRequest {
     String tenNguoitruc;
     String capbacNguoitruc;
     String chucvuNguoitruc;

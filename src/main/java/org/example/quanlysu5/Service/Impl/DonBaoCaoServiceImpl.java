@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.example.quanlysu5.Dto.Request.DonBaoCaoRequest;
+import org.example.quanlysu5.Dto.Request.GhiChuRequest;
 import org.example.quanlysu5.Dto.Response.DonBaoCao.DonBaoCaoResponse;
 import org.example.quanlysu5.Enum.Status;
 import org.example.quanlysu5.Exception.AppException;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,11 +59,13 @@ public class DonBaoCaoServiceImpl implements DonBaoCaoService {
     public DonBaoCaoResponse createDonBaoCaoQuanSoNgay(DonBaoCaoRequest request) {
 
         DonBaoCaoEntity DonBaoCaoEntity = DonBaoCaoMapper.toEntity(request);
-        DonBaoCaoEntity.setStatus(Status.Chờ_Duyệt);
         CaTrucEntity caTruc=caTrucService.getByThoiGian(LocalDateTime.now());
         DonBaoCaoEntity.setCaTruc(caTruc);
+        DonBaoCaoEntity.setCreatedAt(LocalDateTime.now());
         DonBaoCaoEntity.setIsDeleted(false);
+        DonBaoCaoEntity.setThoiGianBaoCao(LocalDateTime.now());
         DonViEntity donViEntity=donViService.getById(request.getDonVi());
+        DonBaoCaoEntity.setStatus(Status.Chờ_Duyệt);
         DonBaoCaoEntity.setDonVi(donViEntity);
         DonBaoCaoEntity = DonBaoCaoRepo.save(DonBaoCaoEntity);
 
@@ -82,14 +86,13 @@ public class DonBaoCaoServiceImpl implements DonBaoCaoService {
 
         if (!donviCon.isEmpty()) {
             donviCon.forEach(dv -> {
-
-                DonBaoCaoEntity childReports =
-                        DonBaoCaoRepo.findByDonVi_MaDonViAndThoiGianBaoCaoBetweenAndStatus(dv.getMaDonVi(),start,end,Status.Đã_Duyệt)
-                                .orElseThrow(()->new AppException(ErrorCode.DONBAOCAO_NOT_FOUND));
-
-                if (childReports != null) {
-                    donBaoCaoEntities.add(childReports);
-                }
+                log.warn(dv.getMaDonVi());
+                DonBaoCaoRepo.findByDonVi_MaDonViAndThoiGianBaoCaoBetweenAndStatus(
+                        dv.getMaDonVi(),
+                        start,
+                        end,
+                        Status.Đã_Duyệt
+                ).ifPresent(donBaoCaoEntities::add);
             });
         }
 
@@ -133,8 +136,9 @@ public class DonBaoCaoServiceImpl implements DonBaoCaoService {
     }
 
     @Override
-    public DonBaoCaoResponse updateStatusRefuse(String idDonBaoCao) {
+    public DonBaoCaoResponse updateStatusRefuse(String idDonBaoCao, GhiChuRequest ghiChuRequest) {
         DonBaoCaoEntity donBaoCaoEntity=getByIdDonBaoCao(idDonBaoCao);
+        donBaoCaoEntity.setGhiChu(ghiChuRequest.getGhiChu());
         donBaoCaoEntity.setStatus(Status.Từ_Chối);
         donBaoCaoEntity.setUpdatedAt(LocalDateTime.now());
         DonBaoCaoRepo.save(donBaoCaoEntity);

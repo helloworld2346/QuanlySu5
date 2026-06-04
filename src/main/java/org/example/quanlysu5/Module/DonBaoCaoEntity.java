@@ -46,12 +46,15 @@ public class DonBaoCaoEntity extends BaseEntity{
     @Column(name = "thong_tin_vang", columnDefinition = "TEXT COMMENT 'thông tin vắng'")
     String  thongTinVang;
 
+    @Column(name = "ghi_chu", columnDefinition = "TEXT COMMENT 'ghi chú'")
+    String  ghiChu;
+
     @ManyToOne
     @JoinColumn(name = "idCatruc",nullable = false)
     CaTrucEntity caTruc;
 
     @ManyToOne
-    @JoinColumn(name = "idDonVi",nullable = false)
+    @JoinColumn(name = "maDonVi",nullable = false)
     DonViEntity donVi;
 
 
