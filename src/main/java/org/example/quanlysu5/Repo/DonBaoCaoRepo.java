@@ -8,19 +8,25 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface DonBaoCaoRepo extends JpaRepository<DonBaoCaoEntity,String>, JpaSpecificationExecutor<DonBaoCaoEntity> {
     List<DonBaoCaoEntity> findAllByIsDeleted(boolean isDeleted);
-    Boolean existsByDonViAndThoiGianBaoCao(DonViEntity DonVi, LocalDate today);
+    Boolean existsByDonViAndThoiGianBaoCaoBetween(DonViEntity DonVi, LocalDateTime start,
+                                                  LocalDateTime end);
     Optional<DonBaoCaoEntity> findByDonVi_MaDonViAndThoiGianBaoCaoBetween(
             String idDonVi,
             LocalDateTime start,
             LocalDateTime end
     );
+    List<DonBaoCaoEntity> findAllByDonVi_MaDonViAndThoiGianBaoCaoBetween(
+            String idDonVi,
+            LocalDateTime start,
+            LocalDateTime end
+    );
+
     Optional<DonBaoCaoEntity> findByDonVi_MaDonViAndThoiGianBaoCaoBetweenAndStatus(
             String idDonVi,
             LocalDateTime start,
@@ -39,6 +45,18 @@ public interface DonBaoCaoRepo extends JpaRepository<DonBaoCaoEntity,String>, Jp
 """, nativeQuery = true)
     List<DonBaoCaoEntity> findAllCap2ByThoiGian(
             @Param("maDonViCha") String maDonViCha,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
+
+    @Query(value = """
+    SELECT dbc.*
+    FROM don_bao_cao_entity dbc
+    WHERE (dbc.cap_duyet IS NULL OR dbc.cap_duyet NOT LIKE 'GS003.%')
+      AND dbc.thoi_gian_bao_cao BETWEEN :start AND :end
+      AND dbc.status = 'Đã_Duyệt'
+""", nativeQuery = true)
+    List<DonBaoCaoEntity> findChuaDuyetDenCapGS003(
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end
     );

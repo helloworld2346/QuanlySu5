@@ -12,6 +12,9 @@ import org.example.quanlysu5.Dto.Response.DonBaoCao.DonBaoCaoResponse;
 import org.example.quanlysu5.Form.DonBaoCaoForm;
 import org.example.quanlysu5.Service.DonBaoCaoService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -77,6 +80,21 @@ public class DonBaoCaoController {
                 .code(0)
                 .build();
     }
+    @GetMapping("/don-bao-cao/search")
+    public ApiResponse<List<DonBaoCaoResponse>> searchBaoCao(
+            @RequestParam String idDonVi,
+            @RequestParam LocalDate start,
+            @RequestParam LocalDate end
+    ){
+        return ApiResponse.<List<DonBaoCaoResponse>>builder()
+                .success(true)
+                .code(0)
+                .message("Duyệt đơn báo cáo thành công")
+                .Result(
+                        donBaoCaoService.getAllDonBaoCaoByDonViVaKhoangThoiGian(idDonVi,start,end)
+                )
+                .build();
+    }
     @PutMapping("/approve/{idDonBaoCao}")
     public ApiResponse<DonBaoCaoResponse> approveDonBaoCao(
             @PathVariable String idDonBaoCao) {
@@ -122,10 +140,37 @@ public class DonBaoCaoController {
     @PostMapping
     public ApiResponse<DonBaoCaoResponse> createDonBaoCao(
             @RequestBody DonBaoCaoRequest request) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
 
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+
+        String scope = jwt.getClaim("sub");
         return ApiResponse.<DonBaoCaoResponse>builder()
-                .Result(donBaoCaoService.createDonBaoCaoQuanSoNgay(request))
+                .Result(donBaoCaoService.createDonBaoCaoQuanSoNgay(request,scope))
                 .message("Tạo đơn báo cáo thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
+
+    @PutMapping("/submit/{id}")
+    public ApiResponse<DonBaoCaoResponse> submitDonBaoCao(
+            @RequestParam String id) {
+        return ApiResponse.<DonBaoCaoResponse>builder()
+                .Result(donBaoCaoService.updateStatusWaitingApprove(id))
+                .message("cập nhập trạng thái thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
+
+    @PutMapping("/recall/{id}")
+    public ApiResponse<DonBaoCaoResponse> recallDonBaoCao(
+            @RequestParam String id) {
+        return ApiResponse.<DonBaoCaoResponse>builder()
+                .Result(donBaoCaoService.updateStatusWaitingDraf(id))
+                .message("cập nhập trạng thái thành công")
                 .success(true)
                 .code(0)
                 .build();

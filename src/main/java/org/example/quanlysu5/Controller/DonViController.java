@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.quanlysu5.Dto.ApiResponse;
 import org.example.quanlysu5.Dto.Request.DonviRequest;
 import org.example.quanlysu5.Dto.Response.DonVi.DonViResponse;
+import org.example.quanlysu5.Form.DonviForm;
 import org.example.quanlysu5.Service.DonViService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +55,17 @@ public class DonViController {
 
         return ApiResponse.<DonViResponse>builder()
                 .Result(donViService.createDonVi(request))
+                .message("Tạo đơn vị thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
+    @PutMapping("/update/{id}")
+    public ApiResponse<DonViResponse> updateDonVi(@PathVariable String id,
+            @RequestBody DonviForm update) {
+
+        return ApiResponse.<DonViResponse>builder()
+                .Result(donViService.updateDonVi(id,update))
                 .message("Tạo đơn vị thành công")
                 .success(true)
                 .code(0)

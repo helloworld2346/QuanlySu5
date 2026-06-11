@@ -27,6 +27,9 @@ public class DonBaoCaoNoList {
     Integer quanSoHienDien;
     Integer quanSoVang;
     String  ghiChu;
+    String  chiTietVang;
+    String trucBanChiHuy;
+    String trucBanTacChien;
     Status trangThai;
     LocalDateTime thoiGianBaoCao;
     String  thongTinVang;

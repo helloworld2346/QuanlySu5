@@ -18,6 +18,7 @@ public interface KhungGioBaoCaoService {
     KhungGioBaoCaoResponse createKhungGio(KhungGioBaoCaoRequest request);
     KhungGioBaoCaoResponse createKhungGioBanChiHuy(KhungGioBaoCaoRequest request);
     KhungGioBaoCaoResponse createKhungGioBanTacChien(KhungGioBaoCaoRequest request);
+    KhungGioBaoCaoResponse createKhungGioBanNgay(KhungGioBaoCaoRequest request);
 
 
     KhungGioBaoCaoResponse updateKhungGio(String idKhunggio,

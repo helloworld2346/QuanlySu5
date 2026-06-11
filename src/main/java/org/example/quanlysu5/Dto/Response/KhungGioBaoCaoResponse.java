@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 @SuperBuilder
@@ -19,6 +20,6 @@ public class KhungGioBaoCaoResponse {
     String idKhunggio;
     String tenBaocao;
     Integer soNgayTruc;
-    Date khunggioBatdau;
-    Date khunggioKetthuc;
+    LocalTime khunggioBatdau;
+    LocalTime khunggioKetthuc;
 }

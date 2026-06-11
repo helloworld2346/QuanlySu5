@@ -68,9 +68,30 @@ public class KhungGioBaoCaoServiceImpl implements KhungGioBaoCaoService {
     }
 
     @Override
-    public KhungGioBaoCaoResponse createKhungGioBanChiHuy(KhungGioBaoCaoRequest request) {
+    public KhungGioBaoCaoResponse createKhungGioBanChiHuy(
+            KhungGioBaoCaoRequest request
+    ) {
+
+        KhungGioBaoCaoEntity khungGioBaoCao =
+                khungGioBaoCaoRepo
+                        .findByLoaiBaoBan(LoaiBaoBan.CATRUC_CHIHUY)
+                        .orElse(null);
+
+        if (khungGioBaoCao != null) {
+
+            khungGioBaoCao.setSoNgayTruc(request.getSoNgayTruc());
+            khungGioBaoCao.setKhunggioBatdau(request.getKhunggioBatdau());
+            khungGioBaoCao.setKhunggioKetthuc(request.getKhunggioKetthuc());
+
+            return khungGioBaoCaoMapper.toResponse(
+                    khungGioBaoCaoRepo.save(khungGioBaoCao)
+            );
+        }
+
         KhungGioBaoCaoEntity entity =
                 khungGioBaoCaoMapper.toEntity(request);
+
+        entity.setTenBaocao("Trực ban chỉ huy");
         entity.setLoaiBaoBan(LoaiBaoBan.CATRUC_CHIHUY);
         entity.setIsDeleted(false);
 
@@ -81,14 +102,64 @@ public class KhungGioBaoCaoServiceImpl implements KhungGioBaoCaoService {
 
     @Override
     public KhungGioBaoCaoResponse createKhungGioBanTacChien(KhungGioBaoCaoRequest request) {
+        KhungGioBaoCaoEntity khungGioBaoCao =
+                khungGioBaoCaoRepo
+                        .findByLoaiBaoBan(LoaiBaoBan.CATRUC_BANTACCHIEN)
+                        .orElse(null);
+
+        if (khungGioBaoCao != null) {
+
+            khungGioBaoCao.setSoNgayTruc(request.getSoNgayTruc());
+            khungGioBaoCao.setKhunggioBatdau(request.getKhunggioBatdau());
+            khungGioBaoCao.setKhunggioKetthuc(request.getKhunggioKetthuc());
+
+            return khungGioBaoCaoMapper.toResponse(
+                    khungGioBaoCaoRepo.save(khungGioBaoCao)
+            );
+        }
+
         KhungGioBaoCaoEntity entity =
                 khungGioBaoCaoMapper.toEntity(request);
+
+        entity.setTenBaocao("Trực ban tác chiến");
         entity.setLoaiBaoBan(LoaiBaoBan.CATRUC_BANTACCHIEN);
         entity.setIsDeleted(false);
 
         return khungGioBaoCaoMapper.toResponse(
                 khungGioBaoCaoRepo.save(entity)
-        );    }
+        );
+
+           }
+
+    @Override
+    public KhungGioBaoCaoResponse createKhungGioBanNgay(KhungGioBaoCaoRequest request) {
+        KhungGioBaoCaoEntity khungGioBaoCao =
+                khungGioBaoCaoRepo
+                        .findByLoaiBaoBan(LoaiBaoBan.BAOBAN_NGAY)
+                        .orElse(null);
+
+        if (khungGioBaoCao != null) {
+
+            khungGioBaoCao.setSoNgayTruc(request.getSoNgayTruc());
+            khungGioBaoCao.setKhunggioBatdau(request.getKhunggioBatdau());
+            khungGioBaoCao.setKhunggioKetthuc(request.getKhunggioKetthuc());
+
+            return khungGioBaoCaoMapper.toResponse(
+                    khungGioBaoCaoRepo.save(khungGioBaoCao)
+            );
+        }
+
+        KhungGioBaoCaoEntity entity =
+                khungGioBaoCaoMapper.toEntity(request);
+
+        entity.setTenBaocao("Báo ban ngày");
+        entity.setLoaiBaoBan(LoaiBaoBan.BAOBAN_NGAY);
+        entity.setIsDeleted(false);
+
+        return khungGioBaoCaoMapper.toResponse(
+                khungGioBaoCaoRepo.save(entity)
+        );
+    }
 
     @Override
     public KhungGioBaoCaoResponse updateKhungGio(

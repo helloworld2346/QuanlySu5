@@ -7,17 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.example.quanlysu5.Dto.ApiResponse;
-import org.example.quanlysu5.Dto.Request.AuthenticationRequest;
-import org.example.quanlysu5.Dto.Request.IntrospectRequest;
-import org.example.quanlysu5.Dto.Request.LogoutRequest;
-import org.example.quanlysu5.Dto.Request.RefreshRequest;
+import org.example.quanlysu5.Dto.Request.*;
 import org.example.quanlysu5.Dto.Response.AuthenticationResponse;
 import org.example.quanlysu5.Dto.Response.IntrospectResponse;
 import org.example.quanlysu5.Service.Impl.AuthenticationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
@@ -32,7 +26,6 @@ public class AuthenController {
 
     @PostMapping("/login")
     public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) throws JOSEException {
-        log.info("thông tin :"+request.toString());
         return ApiResponse.<AuthenticationResponse>builder()
                 .Result(authService.authenticate(request))
                 .message("Login successful")
@@ -88,13 +81,13 @@ public class AuthenController {
 //                .code(0)
 //                .build();
 //    }
-//    @PutMapping("/change-password")
-//    public ApiResponse<Void> changePassword(@RequestBody NewPasswordRequest request) {
-//        authService.changePassword(request);
-//        return ApiResponse.<Void>builder()
-//                .message("Reset Password successful")
-//                .success(true)
-//                .code(0)
-//                .build();
-//    }
+    @PutMapping("/change-password")
+    public ApiResponse<Void> changePassword(@RequestBody NewPasswordRequest request) {
+        authService.changePassword(request);
+        return ApiResponse.<Void>builder()
+                .message("Reset Password successful")
+                .success(true)
+                .code(0)
+                .build();
+    }
 }

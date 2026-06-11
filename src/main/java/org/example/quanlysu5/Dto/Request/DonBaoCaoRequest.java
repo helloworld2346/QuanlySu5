@@ -22,6 +22,9 @@ public class DonBaoCaoRequest {
     Integer quanSoVang;
     LocalDateTime thoiGianBaoCao;
     String  ghiChu;
+    String  chiTietVang;
+    String trucBanChiHuy;
+    String trucBanTacChien;
     String  thongTinVang;
     //ca trực dựa trên thời gian tạo phiếu báo cáo mà tìm đc ca trực
     String donVi;

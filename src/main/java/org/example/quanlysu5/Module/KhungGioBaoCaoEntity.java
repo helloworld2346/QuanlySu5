@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import org.example.quanlysu5.Enum.LoaiBaoBan;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -33,9 +34,9 @@ public class KhungGioBaoCaoEntity extends BaseEntity {
     @NotNull(message = "Loại báo ban không được null")
     LoaiBaoBan loaiBaoBan;
 
-    @Column(columnDefinition = "DATE COMMENT 'Khung giờ bắt đầu'", nullable = false)
-    Date khunggioBatdau;
+    @Column(columnDefinition = "TIME COMMENT 'Khung giờ bắt đầu'", nullable = false)
+    LocalTime khunggioBatdau;
 
-    @Column(columnDefinition = "DATE COMMENT 'Khung giờ kết thúc'", nullable = false)
-    Date khunggioKetthuc;
+    @Column(columnDefinition = "TIME COMMENT 'Khung giờ kết thúc'", nullable = false)
+    LocalTime  khunggioKetthuc;
 }

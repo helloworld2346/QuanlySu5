@@ -1,6 +1,8 @@
 package org.example.quanlysu5.Service.Impl;
 
 
+import org.example.quanlysu5.Form.DonviForm;
+import org.example.quanlysu5.Mapper.DonViMapper;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,6 @@ import org.example.quanlysu5.Dto.Request.DonviRequest;
 import org.example.quanlysu5.Dto.Response.DonVi.DonViResponse;
 import org.example.quanlysu5.Exception.AppException;
 import org.example.quanlysu5.Exception.ErrorCode;
-import org.example.quanlysu5.Mapper.UnitsMapper;
 import org.example.quanlysu5.Module.DonViEntity;
 import org.example.quanlysu5.Repo.DonViRepo;
 import org.example.quanlysu5.Service.DonViService;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,24 +32,24 @@ public class DonViServiceImpl implements DonViService {
 
     ChildCode childCode;
     DonViRepo DonViRepo;
-    UnitsMapper unitsMapper;
+    DonViMapper donViMapper;
     @Override
     public Page<DonViResponse> toUnitsPage(Pageable page) {
         return DonViRepo.findAllByIsDeleted(false,page)
-                .map(unitsMapper::toResponse);
+                .map(donViMapper::toResponse);
     }
 
     @Override
     public List<DonViResponse> toUnitsList() {
         return  DonViRepo.findAll().stream()
-                .map(unitsMapper::toResponse).collect(Collectors.toList());
+                .map(donViMapper::toResponse).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public DonViResponse createDonVi(DonviRequest request) {
 
-        DonViEntity donVi = unitsMapper.toEntity(request);
+        DonViEntity donVi = donViMapper.toEntity(request);
 
         // Nếu có đơn vị cha
         if (request.getDonViCha() != null) {
@@ -74,7 +76,16 @@ public class DonViServiceImpl implements DonViService {
 
         DonViEntity saved = DonViRepo.save(donVi);
 
-        return unitsMapper.toResponse(saved);
+        return donViMapper.toResponse(saved);
+    }
+
+    @Override
+    public DonViResponse updateDonVi(String idDonVi, DonviForm update) {
+        DonViEntity donVi=getById(idDonVi);
+        donViMapper.update(donVi,update);
+        donVi.setUpdatedAt(LocalDateTime.now());
+        DonViRepo.save(donVi);
+        return donViMapper.toResponse(donVi);
     }
 
     @Override

@@ -12,11 +12,14 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class NotificationEntity {
+public class LyDoVangEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_thongbao",columnDefinition = "VARCHAR(36) COMMENT 'Id của thông báo'")
-    String idThongbao;
+    @Column(name = "id_cap_bac",columnDefinition = "VARCHAR(36) COMMENT 'Id của lý do vắng'")
+    String idLyDoVang;
+
+    @Column(columnDefinition = "VARCHAR(255) COMMENT 'lý do vắng'", nullable = false)
+    String lyDoVang;
 
 
 }

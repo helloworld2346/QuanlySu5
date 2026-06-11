@@ -13,6 +13,12 @@ public enum ErrorCode {
     FEATURE_IS_EXIST(1003,"Feature Exist", HttpStatus.CONFLICT),
     ACCOUNT_NOT_FOUND(1002,"Không tìm thấy thông tin tài khoản", HttpStatus.NOT_FOUND),
     ACCOUNT_IS_EXIST(1003,"Trùng thông tin đăng nhập", HttpStatus.CONFLICT),
+    CHUCVU_NOT_FOUND(1002,"Không tìm thấy thấy thông tin chức vụ", HttpStatus.NOT_FOUND),
+    CHUCVU_IS_EXIST(1003,"thông tin chức vụ bị trùng", HttpStatus.CONFLICT),
+    LYDOVANG_NOT_FOUND(1002,"Không tìm thấy thấy thông tin lý do vắng", HttpStatus.NOT_FOUND),
+    LYDOVANG_IS_EXIST(1003,"thông tin lý do vắng bị trùng", HttpStatus.CONFLICT),
+    CAPBAC_NOT_FOUND(1002,"Không tìm thấy thấy thông tin cấp bậc", HttpStatus.NOT_FOUND),
+    CAPBAC_IS_EXIST(1003,"thông tin cấp bậc bị trùng", HttpStatus.CONFLICT),
     ROLE_NOT_FOUND(1002,"Role Not Found", HttpStatus.NOT_FOUND),
     ROLE_IS_EXIST(1003,"Role Exist", HttpStatus.CONFLICT),
     CATRUC_TACCHIEN_EXIST(1002,"Ca trực ban Tác chiến đã tồn tại", HttpStatus.NOT_FOUND),
@@ -29,6 +35,7 @@ public enum ErrorCode {
     TRUCBANTACCHIEN_IS_EXIST(1003,"Trùng thông tin người trực khác", HttpStatus.CONFLICT),
     TRUCCHIHUY_NOT_FOUND(1002,"Không tìm thấy thông tin người trực ban chỉ huy", HttpStatus.NOT_FOUND),
     TRUCCHIHUY_IS_EXIST(1003,"Trùng thông tin người trực khác", HttpStatus.CONFLICT),
+    PASSWORD_INVALID(1003,"Mật khẩu không hợp lệ", HttpStatus.CONFLICT),
     UNAUTHENTICATED(1004,"Tên đăng nhập hoặc mật khẩu không đúng",HttpStatus.UNAUTHORIZED),
     UNCATEGORIZED(9999,"Uncategorized", HttpStatus.INTERNAL_SERVER_ERROR);
     ErrorCode(int Code,String Message, HttpStatusCode sponse){

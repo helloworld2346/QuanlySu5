@@ -12,8 +12,8 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T>{
-    boolean success=false;
-    int code=1000;
+    boolean success =false;
+    int code =1000;
     String message;
     T Result;
 }

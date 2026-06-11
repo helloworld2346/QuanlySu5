@@ -15,4 +15,5 @@ import lombok.experimental.SuperBuilder;
 public class DonViNoList {
     String maDonVi;
     String tenDonvi;
+    String kyhieuDonvi;
 }

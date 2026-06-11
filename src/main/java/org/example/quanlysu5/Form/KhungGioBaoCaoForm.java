@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 @SuperBuilder
@@ -16,6 +17,6 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KhungGioBaoCaoForm {
     String tenBaocao;
-    Date khunggioBatdau;
-    Date khunggioKetthuc;
+    LocalTime khunggioBatdau;
+    LocalTime khunggioKetthuc;
 }

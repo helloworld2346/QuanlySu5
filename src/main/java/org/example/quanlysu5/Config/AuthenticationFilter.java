@@ -39,6 +39,7 @@ public class AuthenticationFilter {
             "/api/auth/login",
             "/inventory",
             "/inventory/sale",
+            "/api/test/notify",
             "/ws",
             // SWAGGER
             "/v3/api-docs/**",
@@ -48,17 +49,19 @@ public class AuthenticationFilter {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-        httpSecurity.authorizeHttpRequests(request ->
-                request
-                        .requestMatchers(HttpMethod.POST, "/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.PUT, PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated()
-        );
 
-        httpSecurity.cors(Customizer.withDefaults());
+        httpSecurity
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request ->
+                        request
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers("/ws", "/ws/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                                .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
+                                .requestMatchers(HttpMethod.PUT, PUBLIC_ENDPOINTS).permitAll()
+                                .anyRequest().authenticated()
+                );
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
@@ -68,8 +71,6 @@ public class AuthenticationFilter {
                         )
                         .authenticationEntryPoint(new JwtAuthenticationEntrypoint())
         );
-
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         return httpSecurity.build();
     }
@@ -98,7 +99,7 @@ public class AuthenticationFilter {
 
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:8080",
-                "http://192.168.1.4:5173",
+                "http://192.168.1.4:5173","http://192.168.1.67:5173",
                 "http://localhost:5174",
                 "http://localhost:5173",
                 "http://192.168.1.28:5173"

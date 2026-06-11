@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.example.quanlysu5.Dto.Request.CaTrucRequest;
+import org.example.quanlysu5.Dto.Request.KhoangThoiGianRequest;
 import org.example.quanlysu5.Dto.Response.CaTruc.CaTrucResponse;
 import org.example.quanlysu5.Dto.Response.CanhBaoCaTrucResponse;
 import org.example.quanlysu5.Enum.LoaiBaoBan;
@@ -14,6 +15,8 @@ import org.example.quanlysu5.Exception.ErrorCode;
 import org.example.quanlysu5.Form.CaTrucForm;
 import org.example.quanlysu5.Mapper.CaTrucMapper;
 import org.example.quanlysu5.Module.CaTrucEntity;
+import org.example.quanlysu5.Module.TrucBanTacChienEntity;
+import org.example.quanlysu5.Module.TrucChiHuyEntity;
 import org.example.quanlysu5.Repo.CaTrucRepo;
 import org.example.quanlysu5.Repo.KhungGioBaoCaoRepo;
 import org.example.quanlysu5.Repo.TrucBanTacChienRepo;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,106 +62,54 @@ public class CaTrucServiceImpl implements CaTrucService {
         return caTrucMapper.toResponse(getByIdCaTruc(idNguoiTruc));
     }
 
-    @Transactional
     @Override
+    @Transactional
     public CaTrucResponse createCaTruc(CaTrucRequest request) {
 
-        CaTrucEntity result = null;
-        LocalDate tuNgay = request.getNgaytruc();
+        int soNgay = 0;
 
-        int soNgayTruc;
+        if (request.getTrucChiHuy() != null) {
 
-        if(request.getTrucChiHuy() != null){
-
-            soNgayTruc =
+            soNgay = Math.max(
+                    soNgay,
                     khungGioRepo.findByLoaiBaoBan(
                                     LoaiBaoBan.CATRUC_CHIHUY)
-                            .get().getSoNgayTruc();
-
+                            .orElseThrow(() ->
+                                    new AppException(
+                                            ErrorCode.TRUCCHIHUY_NOT_FOUND))
+                            .getSoNgayTruc()
+            );
         }
-        else{
 
-            soNgayTruc =
+        if (request.getTrucBanTacChien() != null) {
+
+            soNgay = Math.max(
+                    soNgay,
                     khungGioRepo.findByLoaiBaoBan(
                                     LoaiBaoBan.CATRUC_BANTACCHIEN)
-                            .get().getSoNgayTruc();
+                            .orElseThrow(() ->
+                                    new AppException(
+                                            ErrorCode.TRUCBANTACCHIEN_NOT_FOUND))
+                            .getSoNgayTruc()
+            );
         }
 
-        LocalDate denNgay =
-                tuNgay.plusDays(soNgayTruc - 1);
+        LocalDate current = request.getNgaytruc();
 
-        LocalDate current = tuNgay;
+        CaTrucEntity lastResult = null;
 
-        while(!current.isAfter(denNgay)){
+        for (int i = 0; i < soNgay; i++) {
 
-            Optional<CaTrucEntity> optional =
-                    caTrucRepo.findByNgaytruc(current);
-
-            if (optional.isPresent()) {
-
-                CaTrucEntity caTruc = optional.get();
-
-                if (request.getTrucChiHuy() != null) {
-
-                    if (caTruc.getTrucChiHuy() != null) {
-                        throw new AppException(ErrorCode.CATRUC_CHIHUY_EXIST);
-                    }
-
-                    caTruc.setTrucChiHuy(
-                            trucChiHuyRepo.findById(request.getTrucChiHuy())
-                                    .orElseThrow(() ->
-                                            new AppException(ErrorCode.TRUCCHIHUY_NOT_FOUND))
-                    );
-                }
-
-                if (request.getTrucBanTacChien() != null) {
-
-                    if (caTruc.getTrucBanTacChien() != null) {
-                        throw new AppException(ErrorCode.CATRUC_TACCHIEN_EXIST);
-                    }
-
-                    caTruc.setTrucBanTacChien(
-                            trucBanTacChienRepo.findById(request.getTrucBanTacChien())
-                                    .orElseThrow(() ->
-                                            new AppException(ErrorCode.TRUCBANTACCHIEN_NOT_FOUND))
-                    );
-                }
-
-                result = caTrucRepo.save(caTruc);
-
-            } else {
-
-                CaTrucEntity caTruc = new CaTrucEntity();
-
-                caTruc.setNgaytruc(current);
-                caTruc.setMatkhau(request.getMatkhau());
-                caTruc.setGhichu(request.getGhichu());
-
-                if (request.getTrucChiHuy() != null) {
-                    caTruc.setTrucChiHuy(
-                            trucChiHuyRepo.findById(request.getTrucChiHuy())
-                                    .orElseThrow(() ->
-                                            new AppException(ErrorCode.TRUCCHIHUY_NOT_FOUND))
-                    );
-                }
-
-                if (request.getTrucBanTacChien() != null) {
-                    caTruc.setTrucBanTacChien(
-                            trucBanTacChienRepo.findById(request.getTrucBanTacChien())
-                                    .orElseThrow(() ->
-                                            new AppException(ErrorCode.TRUCBANTACCHIEN_NOT_FOUND))
-                    );
-                }
-
-                result = caTrucRepo.save(caTruc);
-            }
+            lastResult = taoHoacCapNhatCaTruc(
+                    current,
+                    request
+            );
 
             current = current.plusDays(1);
         }
 
-        return caTrucMapper.toResponse(result);
+        return caTrucMapper.toResponse(lastResult);
     }
-
     @Override
     public CaTrucResponse updateCaTruc(String idCaTruc, CaTrucForm update) {
         CaTrucEntity caTruc=caTrucRepo.findById(idCaTruc).orElseThrow(()->new AppException(ErrorCode.CATRUC_NOT_FOUND));
@@ -203,6 +155,75 @@ public class CaTrucServiceImpl implements CaTrucService {
                 )
                 .build();
     }
+
+    @Override
+    public List<Boolean> getListExistCaTruc(KhoangThoiGianRequest request) {
+        List<Boolean> result = new ArrayList<>();
+
+        LocalDate currentDate = request.getThoiGianBatDau();
+
+        while (!currentDate.isAfter(request.getThoiGianKetThuc())) {
+
+            boolean exists =
+                    caTrucRepo.existsByNgaytruc(currentDate);
+
+            result.add(exists);
+
+            currentDate = currentDate.plusDays(1);
+        }
+
+        return result;
+    }
+
+    @Override
+    public CaTrucResponse getByNgayTruc(LocalDate ngayTruc) {
+        CaTrucEntity caTruc=getByThoiGian(ngayTruc.atStartOfDay());
+        return caTrucMapper.toResponse(caTruc);
+    }
+
+    private CaTrucEntity taoHoacCapNhatCaTruc(
+            LocalDate ngayTruc,
+            CaTrucRequest request
+    ) {
+
+        CaTrucEntity caTruc =
+                caTrucRepo.findByNgaytruc(ngayTruc)
+                        .orElseGet(() -> {
+
+                            CaTrucEntity entity =
+                                    new CaTrucEntity();
+
+                            entity.setNgaytruc(ngayTruc);
+
+                            return entity;
+                        });
+
+        caTruc.setMatkhau(request.getMatkhau());
+        caTruc.setGhichu(request.getGhichu());
+
+        // Ghi đè trực chỉ huy
+        if (request.getTrucChiHuy() != null) {
+
+            caTruc.setTrucChiHuy(
+                    trucChiHuyService.getByIdNguoiTruc(
+                            request.getTrucChiHuy()
+                    )
+            );
+        }
+
+        // Ghi đè trực tác chiến
+        if (request.getTrucBanTacChien() != null) {
+
+            caTruc.setTrucBanTacChien(
+                    trucBanTacChienService.getByIdNguoiTruc(
+                            request.getTrucBanTacChien()
+                    )
+            );
+        }
+
+        return caTrucRepo.save(caTruc);
+    }
+
 
 
 }

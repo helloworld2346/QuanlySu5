@@ -20,6 +20,9 @@ public class DonBaoCaoForm {
     Integer quanSoVang;
     LocalDateTime thoiGianBaoCao;
     String  thongTinVang;
+    String trucBanChiHuy;
+    String trucBanTacChien;
+    String  chiTietVang;
     String account;
     //ca trực dựa trên thời gian báo cáo phiếu báo cáo mà tìm đc ca trực
     String donVi;

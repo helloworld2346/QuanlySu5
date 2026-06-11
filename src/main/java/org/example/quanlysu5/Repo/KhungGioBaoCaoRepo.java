@@ -16,6 +16,7 @@ public interface KhungGioBaoCaoRepo extends JpaRepository<KhungGioBaoCaoEntity, 
     List<KhungGioBaoCaoEntity> findAllByIsDeleted(Boolean isDeleted);
 
     Optional<KhungGioBaoCaoEntity> findByLoaiBaoBan(LoaiBaoBan s);
+    boolean existsByLoaiBaoBan(LoaiBaoBan s);
     //    List<KhungGioBaoCaoEntity> findByKhungGioBaoCao(KhungGioBaoCaoEntity KhungGioBaoCaoCha);
 //    List<KhungGioBaoCaoEntity> findByKhungGioBaoCaoIsNull();
     //Page<UnitsEntity> findAllbyPage(Boolean isDeleted, Pageable pageable);

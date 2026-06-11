@@ -7,12 +7,14 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.example.quanlysu5.Dto.ApiResponse;
 import org.example.quanlysu5.Dto.Request.CaTrucRequest;
+import org.example.quanlysu5.Dto.Request.KhoangThoiGianRequest;
 import org.example.quanlysu5.Dto.Response.CaTruc.CaTrucResponse;
 import org.example.quanlysu5.Dto.Response.CanhBaoCaTrucResponse;
 import org.example.quanlysu5.Form.CaTrucForm;
 import org.example.quanlysu5.Service.CaTrucService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -109,6 +111,35 @@ public class CaTrucController {
                 .message("Xóa ca trực thành công")
                 .success(true)
                 .code(0)
+                .build();
+    }
+    @PostMapping("/khoangthoigian")
+    public ApiResponse<List<Boolean>> getListExistCaTruc(
+            @RequestBody KhoangThoiGianRequest request
+    ) {
+
+        return ApiResponse.<List<Boolean>>builder()
+                .success(true)
+                .message("Lấy danh sách ca trực thành công")
+                .Result(
+                        caTrucService
+                                .getListExistCaTruc(request)
+                )
+                .build();
+    }
+    @GetMapping("/ngaytruc")
+    public ApiResponse<CaTrucResponse> getByNgayTruc(
+            @RequestParam LocalDate ngayTruc
+    ) {
+
+        return ApiResponse.<CaTrucResponse>builder()
+                .success(true)
+                .message("Lấy ca trực thành công")
+                .Result(
+                        caTrucService.getByNgayTruc(
+                                ngayTruc
+                        )
+                )
                 .build();
     }
 }

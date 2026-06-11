@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.example.quanlysu5.Dto.Request.AuthenticationRequest;
-import org.example.quanlysu5.Dto.Request.IntrospectRequest;
-import org.example.quanlysu5.Dto.Request.LogoutRequest;
-import org.example.quanlysu5.Dto.Request.RefreshRequest;
+import org.example.quanlysu5.Dto.Request.*;
 import org.example.quanlysu5.Dto.Response.AuthenticationResponse;
 import org.example.quanlysu5.Dto.Response.IntrospectResponse;
 import org.example.quanlysu5.Exception.AppException;
@@ -23,8 +20,11 @@ import org.example.quanlysu5.Module.InvalidateTokenEntity;
 import org.example.quanlysu5.Repo.TaiKhoanRepo;
 import org.example.quanlysu5.Repo.InvalidateTokenRepo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -201,21 +201,29 @@ public class AuthenticationService {
 //
 //        return AuthenticationResponse.builder().token(token).build();
 //    }
-//    public void changePassword(NewPasswordRequest request) {
-//        var userId=GetCurrentUserId.getCurrentUserId();
-//        User user = userRepo.findById(userId)
-//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-//
-//        if (!request.newPassword().equals(request.newPassword())) {
-//            throw new AppException(ErrorCode.PASSWORD_INVALID);
-//        }
-//
-//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-//        user.setPassword(passwordEncoder.encode(request.newPassword()));
-//        userRepo.save(user);
-//
-//        ;
-//    }
+    public void changePassword(NewPasswordRequest request) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+
+        String scope = jwt.getClaim("sub");
+        TaikhoanEntity user = taiKhoanRepo.findById(scope)
+                .orElseThrow(() -> new AppException(ErrorCode.ACCOUNT_NOT_FOUND));
+
+        if(passwordEncoder.matches(
+                request.getMatKhau(),
+                user.getMatKhau()
+        )) {
+            throw new AppException(ErrorCode.PASSWORD_INVALID);
+        }
+
+        user.setMatKhau(passwordEncoder.encode(request.getMatKhau()));
+        taiKhoanRepo.save(user);
+
+        ;
+    }
     private String buildScope(TaikhoanEntity account) {
         StringJoiner stringJoiner = new StringJoiner(" ");
 

@@ -46,8 +46,22 @@ public class DonBaoCaoEntity extends BaseEntity{
     @Column(name = "thong_tin_vang", columnDefinition = "TEXT COMMENT 'thông tin vắng'")
     String  thongTinVang;
 
+    @Column(name = "nguoi_tao", columnDefinition = "TEXT COMMENT 'người tạo'")
+    String  nguoiTao;
+
+    @Column(name = "chi_tiet_vang", columnDefinition = "TEXT COMMENT 'chi tiet vắng'")
+    String  chiTietVang;
+
     @Column(name = "ghi_chu", columnDefinition = "TEXT COMMENT 'ghi chú'")
     String  ghiChu;
+
+    @Column(name = "cap_duyet", columnDefinition = "VARCHAR(50) COMMENT 'Cấp duyệt hiện tại của đơn báo cáo'")
+    String capDuyet;
+
+    @Column(name = "truc_ban_chi_huy", columnDefinition = "TEXT COMMENT 'thông tin trực ban chỉ huy'")
+    String trucBanChiHuy;
+    @Column(name = "truc_ban_tac_chien", columnDefinition = "TEXT COMMENT 'thông tin trực ban tác chiến'")
+    String trucBanTacChien;
 
     @ManyToOne
     @JoinColumn(name = "idCatruc",nullable = false)
