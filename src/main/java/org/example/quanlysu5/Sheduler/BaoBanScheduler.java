@@ -7,6 +7,7 @@ import org.example.quanlysu5.Dto.Request.ThongBaoRequest;
 import org.example.quanlysu5.Module.DonBaoCaoEntity;
 import org.example.quanlysu5.Module.DonViEntity;
 import org.example.quanlysu5.Module.KhungGioBaoCaoEntity;
+import org.example.quanlysu5.Module.ThongBaoEntity;
 import org.example.quanlysu5.Repo.DonBaoCaoRepo;
 import org.example.quanlysu5.Repo.DonViRepo;
 import org.example.quanlysu5.Repo.KhungGioBaoCaoRepo;
@@ -61,7 +62,7 @@ public class BaoBanScheduler {
                 ThongBaoRequest thongBaoRequest=ThongBaoRequest.builder()
                         .loaiThongBao("WARNING")
                         .idMuctieu(dv.getMaDonVi())
-                        .noiDung(dv.getMaDonVi()+" chưa gửi báo ban ngày")
+                        .noiDung(dv.getTenDonvi()+" chưa gửi báo ban ngày")
                         .tieuDe("Nhắc báo ban")
                         .build();
 
@@ -70,22 +71,10 @@ public class BaoBanScheduler {
             }
         }
 
-        checkChuaDuyetDenCapGS003(startOfDay, endOfDay);
+        //checkChuaDuyetDenCapGS003(startOfDay, endOfDay);
         checkSapToiHanNop(today);
     }
 
-    private void checkChuaDuyetDenCapGS003(LocalDateTime start, LocalDateTime end) {
-        List<DonBaoCaoEntity> chuaDuyetList =
-                donBaoCaoRepo.findChuaDuyetDenCapGS003(start, end);
-
-        for(DonBaoCaoEntity dbc : chuaDuyetList){
-            String jsonMessage = String.format(
-                    "{\"title\":\"Nhắc duyệt báo cáo\",\"message\":\"Đơn vị %s chưa được duyệt tới cấp GS003\",\"type\":\"WARNING\"}",
-                    dbc.getDonVi().getTenDonvi()
-            );
-            myWebSocketHandler.sendToAll(jsonMessage);
-        }
-    }
 
     private void checkSapToiHanNop(LocalDate today) {
 

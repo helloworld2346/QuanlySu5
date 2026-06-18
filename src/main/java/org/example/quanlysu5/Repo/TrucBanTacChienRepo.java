@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface TrucBanTacChienRepo extends JpaRepository<TrucBanTacChienEntity, String>, JpaSpecificationExecutor<TrucBanTacChienEntity> {
     List<TrucBanTacChienEntity> findAllByIsDeleted(boolean isDeleted);
     Optional<TrucBanTacChienEntity> findByTenNguoitruc(String tenNguoitruc);
-    Optional<TrucBanTacChienEntity> findBySodienthoaiAndIsDeleted(String sodienthoai,boolean isdeleted);
+    Optional<TrucBanTacChienEntity> findBySodienthoaiAndTenNguoitrucAndIsDeleted(String sodienthoai,String tenNguoitruc,boolean isdeleted);
 
     //Page<UnitsEntity> findAllbyPage(Boolean isDeleted, Pageable pageable);
 

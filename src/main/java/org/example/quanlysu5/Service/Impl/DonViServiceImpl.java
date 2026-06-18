@@ -1,6 +1,7 @@
 package org.example.quanlysu5.Service.Impl;
 
 
+import org.example.quanlysu5.Enum.CapDonVi;
 import org.example.quanlysu5.Form.DonviForm;
 import org.example.quanlysu5.Mapper.DonViMapper;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +51,7 @@ public class DonViServiceImpl implements DonViService {
     public DonViResponse createDonVi(DonviRequest request) {
 
         DonViEntity donVi = donViMapper.toEntity(request);
-
+        donVi.setCapDonVi(CapDonVi.valueOf(request.getCapDonVi()));
         // Nếu có đơn vị cha
         if (request.getDonViCha() != null) {
 

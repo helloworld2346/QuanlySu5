@@ -17,6 +17,7 @@ public interface DonViMapper {
 
     @Mapping(target = "donViCha", ignore = true)
     @Mapping(target = "donViCon", ignore = true)
+    @Mapping(target = "capDonVi", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)

@@ -162,6 +162,13 @@ public class KhungGioBaoCaoServiceImpl implements KhungGioBaoCaoService {
     }
 
     @Override
+    public KhungGioBaoCaoResponse getKhungGioBanNgay() {
+        return khungGioBaoCaoMapper.toResponse(khungGioBaoCaoRepo.findByLoaiBaoBan(
+                LoaiBaoBan.BAOBAN_NGAY).orElseThrow(
+                ()->new AppException(ErrorCode.KHUNGGIOBAOCAO_NOT_FOUND)));
+    }
+
+    @Override
     public KhungGioBaoCaoResponse updateKhungGio(
             String idKhunggio,
             KhungGioBaoCaoForm update) {

@@ -61,7 +61,7 @@ public class TrucChiHuyServiceImpl implements TrucChiHuyService {
         TrucChiHuyEntity TrucChiHuy=TrucChiHuyMapper.toEntity(TrucChiHuyRequest);
         TrucChiHuy.setIsDeleted(false);
         TrucChiHuy.setCreatedAt(LocalDateTime.now());
-        if(TrucChiHuyRepo.findBySodienthoaiAndIsDeleted(TrucChiHuy.getSodienthoai(),false)==null){
+        if(TrucChiHuyRepo.findBySodienthoaiAndTenNguoitrucAndIsDeleted(TrucChiHuy.getSodienthoai(),TrucChiHuy.getTenNguoitruc(),false)==null){
             throw new AppException(ErrorCode.TRUCCHIHUY_IS_EXIST);
         }
 
@@ -71,7 +71,7 @@ public class TrucChiHuyServiceImpl implements TrucChiHuyService {
     @Override
     public TrucChiHuyResponse updateNguoiTruc(String idNguoiTruc, TrucChiHuyForm update) {
 
-        if(TrucChiHuyRepo.findBySodienthoaiAndIsDeleted(update.getSodienthoai(),false)!=null){
+        if(TrucChiHuyRepo.findBySodienthoaiAndTenNguoitrucAndIsDeleted(update.getSodienthoai(),update.getTenNguoitruc(),false)!=null){
             throw new AppException(ErrorCode.TRUCCHIHUY_IS_EXIST);
         }
         TrucChiHuyEntity TrucChiHuy=TrucChiHuyRepo.findById(idNguoiTruc)

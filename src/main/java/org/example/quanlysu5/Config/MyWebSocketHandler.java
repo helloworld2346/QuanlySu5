@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.quanlysu5.Dto.Request.ThongBaoRequest;
 import org.example.quanlysu5.Service.ThongBaoService;
-import org.example.quanlysu5.Service.ThongKeService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -14,6 +13,7 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -81,7 +81,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         log.warn("TYPE = {}", type);
 
         if ("REGISTER".equals(type)) {
-
             registerSession(
                     json.path("token").asText(),
                     json.path("userId").asText(),
@@ -145,7 +144,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             String donViId,
             String role,
             WebSocketSession session
-    ) {
+    ) throws IOException {
 
         log.warn(
                 "REGISTER => token={} user={} donvi={} role={}",
@@ -157,19 +156,45 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
         WebSocketSession oldSession =
                 tokenSessions.put(token, session);
+        List<WebSocketSession> oldSessions =
+                userSessions.get(userId);
 
-        if (oldSession != null &&
-                oldSession.isOpen() &&
-                !oldSession.getId().equals(session.getId())) {
+//        if (oldSessions != null) {
+//
+//            for (WebSocketSession old : oldSessions) {
+//
+//                if (
+//                        old.isOpen()
+//                                && !old.getId().equals(session.getId())
+//                ) {
+//
+//                    log.warn(
+//                            "FORCE_LOGOUT oldSession={} newSession={}",
+//                            old.getId(),
+//                            session.getId()
+//                    );
+//
+//                    old.sendMessage(
+//                            new TextMessage(
+//                                    "{\"type\":\"FORCE_LOGOUT\"}"
+//                            )
+//                    );
+//
+//                    old.close();
+//                }
+//            }
+//
+//            oldSessions.removeIf(
+//                    s -> !s.isOpen()
+//            );
+//        }
 
-            try {
-                oldSession.close();
-            } catch (Exception ignored) {}
-        }
 
         addUniqueSession(userSessions, userId, session);
         addUniqueSession(donViSessions, donViId, session);
         addUniqueSession(vaiTroSessions, role, session);
+
+
 
         long totalSessions =
                 donViSessions.values()

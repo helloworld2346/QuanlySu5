@@ -21,5 +21,6 @@ public class DonviRequest extends BaseEntity {
     int quanSoSiQuan;
     int quanSoQncn;
     String donViCha;
+    String capDonVi;
     List<String> donViCon;
 }

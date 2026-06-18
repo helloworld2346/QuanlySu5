@@ -63,6 +63,10 @@ public class DonBaoCaoEntity extends BaseEntity{
     @Column(name = "truc_ban_tac_chien", columnDefinition = "TEXT COMMENT 'thông tin trực ban tác chiến'")
     String trucBanTacChien;
 
+    @OneToOne(mappedBy = "donBaoCao",
+            cascade = CascadeType.ALL)
+    NhiemVuNgayEntity nhiemVuNgay;
+
     @ManyToOne
     @JoinColumn(name = "idCatruc",nullable = false)
     CaTrucEntity caTruc;

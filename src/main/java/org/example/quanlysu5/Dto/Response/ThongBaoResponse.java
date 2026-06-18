@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import org.example.quanlysu5.Enum.LoaiMuctieu;
 
+import java.time.LocalDateTime;
+
 @SuperBuilder
 @Data
 @NoArgsConstructor
@@ -21,5 +23,6 @@ public class ThongBaoResponse {
     Boolean daDoc;
     LoaiMuctieu loaiMuctieu;
     String idMuctieu;
+    LocalDateTime createdAt;
 
 }

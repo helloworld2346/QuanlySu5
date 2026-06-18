@@ -8,11 +8,13 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DonViRepo extends JpaRepository<DonViEntity, String>, JpaSpecificationExecutor<DonViEntity> {
     Page<DonViEntity> findAllByIsDeleted(Boolean isDeleted, Pageable pageable);
     List<DonViEntity> findAllByIsDeleted(Boolean isDeleted);
+    Optional<DonViEntity> findByKyhieuDonvi(String kyhieuDonvi0);
     List<DonViEntity> findByDonViCha(DonViEntity donViCha);
     List<DonViEntity> findByDonViChaIsNull();
     //Page<UnitsEntity> findAllbyPage(Boolean isDeleted, Pageable pageable);

@@ -165,6 +165,15 @@ public class AuthenticationService {
 
         return signedJWT;
     }
+    public Boolean checkUserByToken(String token,String idUser) throws ParseException {
+
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        String Iduser=signedJWT.getJWTClaimsSet().getSubject();
+        if(Iduser.matches(idUser)){
+            return true;
+        }
+        return false;
+    }
 //    public AuthenticationResponse forgotPassword(String email) {
 //        User user=userRepo.findByEmailWithRoles(email)
 //                .orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));

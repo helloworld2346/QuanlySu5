@@ -19,7 +19,7 @@ public interface KhungGioBaoCaoService {
     KhungGioBaoCaoResponse createKhungGioBanChiHuy(KhungGioBaoCaoRequest request);
     KhungGioBaoCaoResponse createKhungGioBanTacChien(KhungGioBaoCaoRequest request);
     KhungGioBaoCaoResponse createKhungGioBanNgay(KhungGioBaoCaoRequest request);
-
+    KhungGioBaoCaoResponse getKhungGioBanNgay();
 
     KhungGioBaoCaoResponse updateKhungGio(String idKhunggio,
                                           KhungGioBaoCaoForm update);

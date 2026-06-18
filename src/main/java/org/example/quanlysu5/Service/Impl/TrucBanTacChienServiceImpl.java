@@ -60,7 +60,7 @@ public class TrucBanTacChienServiceImpl implements TrucBanTacChienService {
         TrucBanTacChienEntity trucBanTacChien=trucBanTacChienMapper.toEntity(trucBanTacChienRequest);
         trucBanTacChien.setIsDeleted(false);
         trucBanTacChien.setCreatedAt(LocalDateTime.now());
-        if(trucBanTacChienRepo.findBySodienthoaiAndIsDeleted(trucBanTacChien.getSodienthoai(),false)==null){
+        if(trucBanTacChienRepo.findBySodienthoaiAndTenNguoitrucAndIsDeleted(trucBanTacChien.getSodienthoai(),trucBanTacChien.getTenNguoitruc(),false)==null){
             throw new AppException(ErrorCode.TRUCBANTACCHIEN_IS_EXIST);
         }
 
@@ -70,7 +70,7 @@ public class TrucBanTacChienServiceImpl implements TrucBanTacChienService {
     @Override
     public TrucBanTacChienResponse updateNguoiTruc(String idNguoiTruc, TrucBanTacChienForm update) {
 
-        if(trucBanTacChienRepo.findBySodienthoaiAndIsDeleted(update.getSodienthoai(),false)!=null){
+        if(trucBanTacChienRepo.findBySodienthoaiAndTenNguoitrucAndIsDeleted(update.getSodienthoai(),update.getTenNguoitruc(),false)!=null){
             throw new AppException(ErrorCode.TRUCBANTACCHIEN_IS_EXIST);
         }
         TrucBanTacChienEntity trucBanTacChien=trucBanTacChienRepo.findById(idNguoiTruc)

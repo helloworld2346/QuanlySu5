@@ -3,6 +3,7 @@ package org.example.quanlysu5.Dto.Response.DonVi;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import org.example.quanlysu5.Enum.CapDonVi;
 import org.example.quanlysu5.Module.BaseEntity;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public class DonViResponse extends BaseEntity {
     int quanSoSiQuan;
     int quanSoQncn;
     List<String> donViCon;
+    CapDonVi capDonVi;
 }

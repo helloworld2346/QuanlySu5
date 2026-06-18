@@ -15,6 +15,7 @@ public enum ErrorCode {
     ACCOUNT_IS_EXIST(1003,"Trùng thông tin đăng nhập", HttpStatus.CONFLICT),
     CHUCVU_NOT_FOUND(1002,"Không tìm thấy thấy thông tin chức vụ", HttpStatus.NOT_FOUND),
     CHUCVU_IS_EXIST(1003,"thông tin chức vụ bị trùng", HttpStatus.CONFLICT),
+    NHIEMVUNGAY_NOT_FOUND(1002,"Không tìm thấy thấy thông tin nhiệm vụ ngày", HttpStatus.NOT_FOUND),
     LYDOVANG_NOT_FOUND(1002,"Không tìm thấy thấy thông tin lý do vắng", HttpStatus.NOT_FOUND),
     LYDOVANG_IS_EXIST(1003,"thông tin lý do vắng bị trùng", HttpStatus.CONFLICT),
     CAPBAC_NOT_FOUND(1002,"Không tìm thấy thấy thông tin cấp bậc", HttpStatus.NOT_FOUND),

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import org.example.quanlysu5.Enum.CapDonVi;
 
 @SuperBuilder
 @Data
@@ -16,4 +17,5 @@ public class DonViNoList {
     String maDonVi;
     String tenDonvi;
     String kyhieuDonvi;
+    CapDonVi capDonVi;
 }

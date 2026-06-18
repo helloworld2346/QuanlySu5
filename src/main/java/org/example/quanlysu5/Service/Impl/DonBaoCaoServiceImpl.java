@@ -9,6 +9,7 @@
     import org.example.quanlysu5.Dto.Request.GhiChuRequest;
     import org.example.quanlysu5.Dto.Request.ThongBaoRequest;
     import org.example.quanlysu5.Dto.Response.DonBaoCao.DonBaoCaoResponse;
+    import org.example.quanlysu5.Enum.CapDonVi;
     import org.example.quanlysu5.Enum.Status;
     import org.example.quanlysu5.Exception.AppException;
     import org.example.quanlysu5.Exception.ErrorCode;
@@ -176,10 +177,11 @@
         @Override
         public DonBaoCaoResponse updateStatusWaitingApprove(String idDonBaoCao) {
             DonBaoCaoEntity donBaoCaoEntity=getByIdDonBaoCao(idDonBaoCao);
-            if(donBaoCaoEntity.getDonVi().getMaDonVi().matches("GS003")){
-                donBaoCaoEntity.setStatus(Status.Đã_Duyệt);
-            }else{
+            if (donBaoCaoEntity.getDonVi().getCapDonVi().equals(CapDonVi.TIEU_DOAN)
+                    || donBaoCaoEntity.getDonVi().getCapDonVi().equals(CapDonVi.TRUNG_DOAN)) {
                 donBaoCaoEntity.setStatus(Status.Chờ_Duyệt);
+            } else {
+                donBaoCaoEntity.setStatus(Status.Đã_Duyệt);
             }
             donBaoCaoEntity.setUpdatedAt(LocalDateTime.now());
             DonBaoCaoRepo.save(donBaoCaoEntity);

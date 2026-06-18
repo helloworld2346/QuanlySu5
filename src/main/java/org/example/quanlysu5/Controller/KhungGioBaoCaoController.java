@@ -61,6 +61,15 @@ public class KhungGioBaoCaoController {
                 .Result(khungGioBaoCaoService.createKhungGioBanChiHuy(request))
                 .build();
     }
+    @GetMapping("/baobanngay")
+    public ApiResponse<KhungGioBaoCaoResponse> getKhungGioBanNgay() {
+
+        return ApiResponse.<KhungGioBaoCaoResponse>builder()
+                .success(true)
+                .message("Tạo khung giờ báo cáo thành công")
+                .Result(khungGioBaoCaoService.getKhungGioBanNgay())
+                .build();
+    }
     @PostMapping("/baobanngay")
     public ApiResponse<KhungGioBaoCaoResponse> createKhungGioBanNgay(
             @RequestBody KhungGioBaoCaoRequest request) {
