@@ -13,18 +13,30 @@ import java.util.List;
 @Service
 public interface DonBaoCaoService {
     List<DonBaoCaoResponse> getAllDonBaoCaoToResponse();
+
     DonBaoCaoEntity getByIdDonBaoCao(String idNguoiTruc);
+
     DonBaoCaoResponse getByIdDonBaoCaoReponse(String idNguoiTruc);
-    DonBaoCaoResponse createDonBaoCaoQuanSoNgay(DonBaoCaoRequest DonBaoCaoRequest,String idNguoiTao);
+
+    DonBaoCaoResponse createDonBaoCaoQuanSoNgay(DonBaoCaoRequest DonBaoCaoRequest, String idNguoiTao);
+
     List<DonBaoCaoResponse> getAllDonBaoCaoDonViConByDonVi(String idDonVi, LocalDate ngayLoc);
+
     DonBaoCaoResponse getAllDonBaoCaoByDonVi(String idDonVi, LocalDate ngayLoc);
-    List<DonBaoCaoResponse> getAllDonBaoCaoByDonViVaKhoangThoiGian(String idDonVi, LocalDate start,LocalDate end);
+
+    List<DonBaoCaoResponse> getAllDonBaoCaoByDonViVaKhoangThoiGian(String idDonVi, LocalDate start, LocalDate end);
+
     DonBaoCaoResponse getAllDonBaoCaoByDonViApprove(String idDonVi, LocalDate ngayLoc);
 
     DonBaoCaoResponse updateStatusApprove(String idDonBaoCao);
+
     DonBaoCaoResponse updateStatusWaitingApprove(String idDonBaoCao);
+
     DonBaoCaoResponse updateStatusWaitingDraf(String idDonBaoCao);
+
     DonBaoCaoResponse updateStatusRefuse(String idDonBaoCao, GhiChuRequest ghichu);
+
     DonBaoCaoResponse updateDonBaoCao(String idDonBaoCao, DonBaoCaoForm update);
+
     void deleteDonBaoCao(String idDonBaoCao);
 }

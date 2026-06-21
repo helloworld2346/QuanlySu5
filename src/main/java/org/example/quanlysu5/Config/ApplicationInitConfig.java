@@ -59,7 +59,7 @@ public class ApplicationInitConfig {
                                         DonViRepo donViRepo, DonViService donViService, VaiTroService vaiTroService, DataInitializer dataInitializer) {
         return args -> {
             // Initial data setup
-            if (taiKhoanRepository.findByTenDangNhap("admin").isEmpty()) {
+            if (taiKhoanRepository.findByTenDangNhapIgnoreCase("admin").isEmpty()) {
 
                 VaiTroEntity vaiTro =
                         vaiTroRepository.findByTenVaiTro("Quản Trị Viên")

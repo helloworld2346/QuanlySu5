@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import org.example.quanlysu5.Dto.Response.DonVi.DonViResponse;
 
 @SuperBuilder
 @Data
@@ -24,5 +25,5 @@ public class NhiemVuNgayResponse {
     String noiDungKhuyetDiem;
 
     String noiDungCanGiaiQuyet;
-
+    DonViResponse donViResponse;
 }

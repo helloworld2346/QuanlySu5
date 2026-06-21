@@ -12,19 +12,25 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {DonViMapper.class})
 public interface NhiemVuNgayMapper {
 
-    @Mapping(target = "donBaoCao",ignore = true)
+    @Mapping(target = "donBaoCao", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
     NhiemVuNgayEntity toEntity(NhiemVuNgayRequest request);
 
-    NhiemVuNgayResponse toResponse(NhiemVuNgayEntity NhiemVuNgayEntity);
-    @Mapping(target = "donBaoCao",ignore = true)
-    void update(@MappingTarget NhiemVuNgayEntity nhiemVuNgay, NhiemVuNgayForm update);
+    @Mapping(
+            target = "donViResponse",
+            source = "donBaoCao.donVi"
+    )
+    NhiemVuNgayResponse toResponse(NhiemVuNgayEntity nhiemVuNgayEntity);
 
-
+    @Mapping(target = "donBaoCao", ignore = true)
+    void update(
+            @MappingTarget NhiemVuNgayEntity nhiemVuNgay,
+            NhiemVuNgayForm update
+    );
 }

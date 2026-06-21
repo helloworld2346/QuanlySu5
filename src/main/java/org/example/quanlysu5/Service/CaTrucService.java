@@ -15,14 +15,23 @@ import java.util.List;
 @Service
 public interface CaTrucService {
     List<CaTrucResponse> getAllCaTrucToResponse();
+
     CaTrucEntity getByIdCaTruc(String idNguoiTruc);
+
     CaTrucResponse getByIdCaTrucResponse(String idNguoiTruc);
+
     CaTrucResponse createCaTruc(CaTrucRequest CaTrucRequest);
+
     CaTrucResponse updateCaTruc(String idCaTruc, CaTrucForm update);
+
     void deleteCaTruc(String idCaTruc);
+
     CaTrucEntity getByThoiGian(LocalDateTime thoigian);
+
     CanhBaoCaTrucResponse checkCaTruc();
+
     List<Boolean> getListExistCaTruc(KhoangThoiGianRequest request);
+
     CaTrucResponse getByNgayTruc(LocalDate ngayTruc);
 
 }

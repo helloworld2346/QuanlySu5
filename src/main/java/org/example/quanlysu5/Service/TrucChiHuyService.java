@@ -11,12 +11,19 @@ import java.util.List;
 @Service
 public interface TrucChiHuyService {
     List<TrucChiHuyResponse> getAllTrucChiHuyToResponse();
+
     TrucChiHuyEntity getByIdNguoiTruc(String idNguoiTruc);
+
     TrucChiHuyResponse getByIdNguoiTrucResponse(String idNguoiTruc);
+
     TrucChiHuyResponse getByTenNguoiTruc(String tenNguoiTruc);
+
     TrucChiHuyResponse createNguoiTruc(TrucChiHuyRequest TrucChiHuyRequest);
+
     TrucChiHuyResponse updateNguoiTruc(String idNguoiTruc, TrucChiHuyForm update);
+
     boolean canhBaoTrucChiHuy();
+
     void deleteNguoiTruc(String idNguoiTruc);
 
 

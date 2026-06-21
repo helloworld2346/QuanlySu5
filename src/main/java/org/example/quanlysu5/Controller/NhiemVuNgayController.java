@@ -6,11 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.quanlysu5.Dto.ApiResponse;
 import org.example.quanlysu5.Dto.Request.NhiemVuNgayRequest;
+import org.example.quanlysu5.Dto.Response.DonBaoCao.DonBaoCaoResponse;
 import org.example.quanlysu5.Dto.Response.NhiemvuNgay.NhiemVuNgayResponse;
 import org.example.quanlysu5.Form.NhiemVuNgayForm;
 import org.example.quanlysu5.Service.NhiemVuNgayService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -79,6 +82,19 @@ public class NhiemVuNgayController {
                 .code(0)
                 .message("Tạo nhiệm vụ ngày thành công")
                 .build();
+    }@GetMapping("/search/donvi/{idDonVi}/children")
+    public ApiResponse<List<NhiemVuNgayResponse>> getAllListByIdDonVi(  @PathVariable String idDonVi,
+                                                                        @RequestParam
+                                                                        @DateTimeFormat(pattern = "dd/MM/yyyy")
+                                                                        LocalDate ngayLoc){
+
+        return ApiResponse.<List<NhiemVuNgayResponse>>builder()
+                .Result(nhiemVuNgayService.getAllListByIdDonVi(idDonVi,ngayLoc))
+                .message("Lấy danh sách nhiệm vụ của đơn vị con thành công")
+                .success(true)
+                .code(0)
+                .build();
     }
+
 
 }

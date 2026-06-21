@@ -10,7 +10,10 @@ import java.util.List;
 @Service
 public interface ChucVuService {
     List<ChucVuResponse> getAllList();
+
     ChucVuEntity getByid(String id);
+
     ChucVuResponse getByIdResponse(String id);
+
     ChucVuResponse createChucVu(ChucVuRequest request);
 }

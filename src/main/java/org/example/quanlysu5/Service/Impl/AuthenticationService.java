@@ -69,7 +69,7 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         var account = taiKhoanRepo
-                .findByTenDangNhap(request.getUserName())
+                .findByTenDangNhapIgnoreCase(request.getUserName())
                 .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), account.getMatKhau());
@@ -111,7 +111,7 @@ public class AuthenticationService {
         var userName = signedJWT.getJWTClaimsSet().getClaim("userName").toString();
 
         var user =
-                taiKhoanRepo.findByTenDangNhap(userName).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+                taiKhoanRepo.findByTenDangNhapIgnoreCase(userName).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
         var token = generateToken(user,VALID_DURATION);
 

@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface TaiKhoanRepo extends JpaRepository<TaikhoanEntity,String> , JpaSpecificationExecutor<TaikhoanEntity> {
-    Optional<TaikhoanEntity> findByTenDangNhap(String tenTaiKhoan);
+    Optional<TaikhoanEntity> findByTenDangNhapIgnoreCase(String tenTaiKhoan);
     Optional<TaikhoanEntity> findByTenDangNhapAndMatKhau(String tenDangNhap,String matKhau);
 }

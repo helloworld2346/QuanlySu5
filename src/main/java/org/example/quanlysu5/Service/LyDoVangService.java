@@ -10,7 +10,10 @@ import java.util.List;
 @Service
 public interface LyDoVangService {
     List<LyDoVangResponse> getAllList();
+
     LyDoVangEntity getByid(String id);
+
     LyDoVangResponse getByIdResponse(String id);
+
     LyDoVangResponse createLyDoVang(LyDoVangRequest request);
 }

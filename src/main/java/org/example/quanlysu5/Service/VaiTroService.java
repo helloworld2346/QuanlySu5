@@ -11,9 +11,13 @@ import java.util.List;
 @Service
 public interface VaiTroService {
     List<VaiTroResponse> getAllRole();
-   VaiTroEntity getRoleById(String id);
-   VaiTroEntity getRoleByName(String name);
+
+    VaiTroEntity getRoleById(String id);
+
+    VaiTroEntity getRoleByName(String name);
+
     VaiTroResponse getRoleResponseById(String id);
-   VaiTroResponse createRole(VaiTroRequest vaiTroRequest);
+
+    VaiTroResponse createRole(VaiTroRequest vaiTroRequest);
 
 }

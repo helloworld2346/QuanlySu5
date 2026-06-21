@@ -10,7 +10,10 @@ import java.util.List;
 @Service
 public interface TaiKhoanService {
     TaikhoanEntity getTaiKhoanById(String id);
+
     TaiKhoanResponse getTaiKhoanResponse(String id);
+
     List<TaiKhoanResponse> getAllTaiKhoan();
+
     TaiKhoanResponse createdTaiKhoanResponse(TaiKhoanRequest taiKhoanRequest);
 }

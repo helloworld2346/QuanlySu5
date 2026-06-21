@@ -13,8 +13,12 @@ import java.util.List;
 @Service
 public interface DonViService {
     Page<DonViResponse> toUnitsPage(Pageable page);
+
     List<DonViResponse> toUnitsList();
+
     DonViResponse createDonVi(DonviRequest donviRequest);
+
     DonViResponse updateDonVi(String idDonVi, DonviForm update);
+
     DonViEntity getById(String id);
 }
