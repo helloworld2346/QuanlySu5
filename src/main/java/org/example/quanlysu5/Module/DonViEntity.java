@@ -64,4 +64,7 @@ public class DonViEntity extends BaseEntity{
 
     @OneToMany(mappedBy = "donVi")
     List<DonBaoCaoEntity> donBaoCao;
+
+    @OneToMany(mappedBy = "donVi")
+    List<CtDangCtEntity> CtDangCt;
 }

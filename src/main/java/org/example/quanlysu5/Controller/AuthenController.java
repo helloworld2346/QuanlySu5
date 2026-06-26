@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Authen API", description = "Quản lý token bên xác thực")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
