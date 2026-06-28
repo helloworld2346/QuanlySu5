@@ -178,7 +178,6 @@ public class DonBaoCaoServiceImpl implements DonBaoCaoService {
     @Override
     public DonBaoCaoResponse updateStatusWaitingApprove(String idDonBaoCao) {
         DonBaoCaoEntity donBaoCaoEntity = getByIdDonBaoCao(idDonBaoCao);
-        log.warn(String.valueOf(donBaoCaoEntity.getDonVi().getKyhieuDonvi()));
         if ((donBaoCaoEntity.getDonVi().getCapDonVi().equals(CapDonVi.TIEU_DOAN) && !donBaoCaoEntity.getDonVi().getKyhieuDonvi().matches("dbộ"))
                 || (donBaoCaoEntity.getDonVi().getCapDonVi().equals(CapDonVi.TRUNG_DOAN) && !donBaoCaoEntity.getDonVi().getKyhieuDonvi().matches("ebộ"))) {
             donBaoCaoEntity.setStatus(Status.Chờ_Duyệt);

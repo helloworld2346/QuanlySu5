@@ -1,20 +1,22 @@
-package org.example.quanlysu5.Dto.Request;
+package org.example.quanlysu5.Dto.Response.CtDangCt;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import org.example.quanlysu5.Dto.Response.DonVi.DonViNoList;
 import org.example.quanlysu5.Dto.Response.DonVi.DonViResponse;
-import org.example.quanlysu5.Module.BaseEntity;
-import org.example.quanlysu5.Module.DonBaoCaoEntity;
-import org.example.quanlysu5.Module.DonViEntity;
+import org.example.quanlysu5.Enum.Status;
 
 @SuperBuilder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CtDangCtRequest {
+public class CtDangCtResponse {
+    String idCongtac;
 
     String tinhHinh;
 
@@ -28,5 +30,7 @@ public class CtDangCtRequest {
 
     String kienNghi;
 
-    String donVi;
+    Status status;
+
+    DonViNoList donVi;
 }

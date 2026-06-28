@@ -1,4 +1,4 @@
-package org.example.quanlysu5.Dto.Request;
+package org.example.quanlysu5.Form;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,14 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class NewPasswordRequest {
-    String matKhau;
-    String matKhauCu;
+public class CtDangCtForm {
+
+    String tinhHinh;
+
+    String noiDungDotXuat;
+
+    String ketQua;
+
+    String khuyenNghi;
+
 }

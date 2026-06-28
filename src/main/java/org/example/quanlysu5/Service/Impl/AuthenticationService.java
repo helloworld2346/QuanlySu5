@@ -224,7 +224,7 @@ public class AuthenticationService {
         if(passwordEncoder.matches(
                 request.getMatKhau(),
                 user.getMatKhau()
-        )) {
+        )||passwordEncoder.matches(request.getMatKhauCu(),user.getMatKhau())) {
             throw new AppException(ErrorCode.PASSWORD_INVALID);
         }
 

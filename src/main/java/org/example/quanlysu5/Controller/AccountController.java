@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/account")
 @RequiredArgsConstructor
 @Tag(name = "Account API", description = "Quản lý thông tin tài khoản")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

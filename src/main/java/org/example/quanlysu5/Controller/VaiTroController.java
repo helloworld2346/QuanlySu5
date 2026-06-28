@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vaitro")
+@RequestMapping("/vaitro")
 @RequiredArgsConstructor
 @Tag(name = "Vai Tro API", description = "Quản lý vai trò")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

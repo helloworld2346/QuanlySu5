@@ -22,6 +22,7 @@ public enum ErrorCode {
     CAPBAC_IS_EXIST(1003,"thông tin cấp bậc bị trùng", HttpStatus.CONFLICT),
     ROLE_NOT_FOUND(1002,"Role Not Found", HttpStatus.NOT_FOUND),
     ROLE_IS_EXIST(1003,"Role Exist", HttpStatus.CONFLICT),
+    CTDANGCT_NOT_FOUND(1002,"Thông tin đơn công tác đảng, chính trị", HttpStatus.NOT_FOUND),
     CATRUC_TACCHIEN_EXIST(1002,"Ca trực ban Tác chiến đã tồn tại", HttpStatus.NOT_FOUND),
     CATRUC_CHIHUY_EXIST(1003,"Ca trực chỉ huy đã tồn tại", HttpStatus.CONFLICT),
     KHUNGGIOBAOCAO_NOT_FOUND(1002,"Không tìm thấy khung giờ hệ thống", HttpStatus.NOT_FOUND),
