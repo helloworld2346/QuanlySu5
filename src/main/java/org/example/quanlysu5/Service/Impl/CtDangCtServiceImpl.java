@@ -23,6 +23,7 @@ import org.example.quanlysu5.Service.CtDangCtService;
 import org.example.quanlysu5.Service.DonViService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,17 @@ public class CtDangCtServiceImpl implements CtDangCtService {
         ctDangCtEntity.setStatus(Status.Nháp);
         ctDangCtRepo.save(ctDangCtEntity);
         return ctDangCtMapper.toResponse(ctDangCtEntity);
+    }
+
+    @Override
+    public CtDangCtResponse getAllCtDangCtoByDonViApprove(String idDonVi, LocalDate ngayLoc) {
+        LocalDateTime start = ngayLoc.atStartOfDay();
+        LocalDateTime end = ngayLoc.atTime(23, 59, 59);
+
+        CtDangCtEntity Reports =
+                ctDangCtRepo.findByDonVi_MaDonViAndCreatedAtBetweenAndStatus(idDonVi, start, end,Status.Đã_Duyệt)
+                        .orElseThrow(() -> new AppException(ErrorCode.CTDANGCT_NOT_FOUND));
+        return ctDangCtMapper.toResponse(Reports);
     }
 
     @Override

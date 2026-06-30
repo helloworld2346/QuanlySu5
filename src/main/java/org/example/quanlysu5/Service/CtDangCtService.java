@@ -7,6 +7,7 @@ import org.example.quanlysu5.Form.CtDangCtForm;
 import org.example.quanlysu5.Module.CtDangCtEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,6 +16,7 @@ public interface CtDangCtService {
     CtDangCtResponse getAllByIdDonVi(String idDonVi);
     CtDangCtResponse create(CtDangCtRequest request,String idNguoiTao);
     CtDangCtResponse update(CtDangCtForm update,String idCtDangCt);
+    CtDangCtResponse getAllCtDangCtoByDonViApprove(String idDonVi, LocalDate ngayLoc);
     CtDangCtEntity getById(String id);
     CtDangCtResponse getByIdResponse(String id);
     CtDangCtResponse updateStatusApprove(String id);

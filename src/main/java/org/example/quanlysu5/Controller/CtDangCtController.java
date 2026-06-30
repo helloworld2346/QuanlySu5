@@ -9,13 +9,16 @@ import org.example.quanlysu5.Dto.ApiResponse;
 import org.example.quanlysu5.Dto.Request.CtDangCtRequest;
 import org.example.quanlysu5.Dto.Request.GhiChuRequest;
 import org.example.quanlysu5.Dto.Response.CtDangCt.CtDangCtResponse;
+import org.example.quanlysu5.Dto.Response.DonBaoCao.DonBaoCaoResponse;
 import org.example.quanlysu5.Form.CtDangCtForm;
 import org.example.quanlysu5.Service.CtDangCtService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -63,7 +66,20 @@ public class CtDangCtController {
                 )
                 .build();
     }
+    @GetMapping("/search/DonVi/{idDonVi}/Status/Approvel")
+    public ApiResponse<CtDangCtResponse> getDonBaoCaoByIdApprove(
+            @PathVariable String idDonVi,
+            @RequestParam
+            @DateTimeFormat(pattern = "dd/MM/yyyy")
+            LocalDate ngayLoc) {
 
+        return ApiResponse.<CtDangCtResponse>builder()
+                .Result(ctDangCtService.getAllCtDangCtoByDonViApprove(idDonVi,ngayLoc))
+                .message("Lấy thông tin đơn báo cáo thành công")
+                .success(true)
+                .code(0)
+                .build();
+    }
     @GetMapping("/{id}")
     public ApiResponse<CtDangCtResponse> getById(
             @PathVariable String id
