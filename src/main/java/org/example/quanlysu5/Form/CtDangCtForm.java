@@ -20,6 +20,10 @@ public class CtDangCtForm {
 
     String ketQua;
 
-    String khuyenNghi;
+    String trucBanNoiVu;
+    
+    String trucBanCtDangCt;
+    
+    String kienNghi;  
 
 }
