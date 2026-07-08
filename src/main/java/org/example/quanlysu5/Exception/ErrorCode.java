@@ -38,8 +38,9 @@ public enum ErrorCode {
     TRUCCHIHUY_NOT_FOUND(1002,"Không tìm thấy thông tin người trực ban chỉ huy", HttpStatus.NOT_FOUND),
     TRUCCHIHUY_IS_EXIST(1003,"Trùng thông tin người trực khác", HttpStatus.CONFLICT),
     PASSWORD_INVALID(1003,"Mật khẩu không hợp lệ", HttpStatus.CONFLICT),
-    UNAUTHENTICATED(1004,"Tên đăng nhập hoặc mật khẩu không đúng",HttpStatus.UNAUTHORIZED),
-    UNCATEGORIZED(9999,"Uncategorized", HttpStatus.INTERNAL_SERVER_ERROR);
+    UNAUTHENTICATED(1004, "Tên đăng nhập hoặc mật khẩu không đúng", HttpStatus.UNAUTHORIZED),
+    ACCOUNT_LOCKED(1005,"Tài khoản đã bị khóa",HttpStatus.FORBIDDEN),
+    UNCATEGORIZED(9999, "Uncategorized", HttpStatus.INTERNAL_SERVER_ERROR);
     ErrorCode(int Code,String Message, HttpStatusCode sponse){
         this.code = Code;
         this.message = Message;

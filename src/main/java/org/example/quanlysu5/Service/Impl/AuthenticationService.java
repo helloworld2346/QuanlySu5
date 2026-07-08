@@ -72,11 +72,15 @@ public class AuthenticationService {
                 .findByTenDangNhapIgnoreCase(request.getUserName())
                 .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
-        boolean authenticated = passwordEncoder.matches(request.getPassword(), account.getMatKhau());
-
-        if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
-
-        var token = generateToken(account,VALID_DURATION);
+        boolean authenticated = passwordEncoder.matches(request.getPassword(), account.getMatKhau());  
+  
+        if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);  
+        
+        if (Boolean.TRUE.equals(account.getKhoa())) {  
+            throw new AppException(ErrorCode.ACCOUNT_LOCKED);  
+        }  
+        
+        var token = generateToken(account, VALID_DURATION);
 
         return AuthenticationResponse.builder().token(token).build();
     }

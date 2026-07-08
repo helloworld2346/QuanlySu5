@@ -20,4 +20,8 @@ public class DonviForm extends BaseEntity {
     int quanSoHsqBs;
     int quanSoSiQuan;
     int quanSoQncn;
+    String tenDonvi;  
+    String kyhieuDonvi;  
+    String capDonVi;
+    String donViCha; 
 }

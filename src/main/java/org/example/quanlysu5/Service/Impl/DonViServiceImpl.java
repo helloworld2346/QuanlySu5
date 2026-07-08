@@ -1,97 +1,118 @@
-package org.example.quanlysu5.Service.Impl;
+    package org.example.quanlysu5.Service.Impl;
 
 
-import org.example.quanlysu5.Enum.CapDonVi;
-import org.example.quanlysu5.Form.DonviForm;
-import org.example.quanlysu5.Mapper.DonViMapper;
-import org.springframework.transaction.annotation.Transactional;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
-import org.example.quanlysu5.Dto.Request.DonviRequest;
-import org.example.quanlysu5.Dto.Response.DonVi.DonViResponse;
-import org.example.quanlysu5.Exception.AppException;
-import org.example.quanlysu5.Exception.ErrorCode;
-import org.example.quanlysu5.Module.DonViEntity;
-import org.example.quanlysu5.Repo.DonViRepo;
-import org.example.quanlysu5.Service.DonViService;
-import org.example.quanlysu5.Unit.ChildCode;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+    import org.example.quanlysu5.Enum.CapDonVi;
+    import org.example.quanlysu5.Form.DonviForm;
+    import org.example.quanlysu5.Mapper.DonViMapper;
+    import org.springframework.transaction.annotation.Transactional;
+    import lombok.AccessLevel;
+    import lombok.RequiredArgsConstructor;
+    import lombok.experimental.FieldDefaults;
+    import lombok.extern.slf4j.Slf4j;
+    import org.example.quanlysu5.Dto.Request.DonviRequest;
+    import org.example.quanlysu5.Dto.Response.DonVi.DonViResponse;
+    import org.example.quanlysu5.Exception.AppException;
+    import org.example.quanlysu5.Exception.ErrorCode;
+    import org.example.quanlysu5.Module.DonViEntity;
+    import org.example.quanlysu5.Repo.DonViRepo;
+    import org.example.quanlysu5.Service.DonViService;
+    import org.example.quanlysu5.Unit.ChildCode;
+    import org.springframework.data.domain.Page;
+    import org.springframework.data.domain.Pageable;
+    import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+    import java.time.LocalDateTime;
+    import java.util.List;
+    import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Slf4j
-public class DonViServiceImpl implements DonViService {
+    @Service
+    @RequiredArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+    @Slf4j
+    public class DonViServiceImpl implements DonViService {
 
-    ChildCode childCode;
-    DonViRepo DonViRepo;
-    DonViMapper donViMapper;
-    @Override
-    public Page<DonViResponse> toUnitsPage(Pageable page) {
-        return DonViRepo.findAllByIsDeleted(false,page)
-                .map(donViMapper::toResponse);
-    }
-
-    @Override
-    public List<DonViResponse> toUnitsList() {
-        return  DonViRepo.findAll().stream()
-                .map(donViMapper::toResponse).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public DonViResponse createDonVi(DonviRequest request) {
-
-        DonViEntity donVi = donViMapper.toEntity(request);
-        donVi.setCapDonVi(CapDonVi.valueOf(request.getCapDonVi()));
-        // Nếu có đơn vị cha
-        if (request.getDonViCha() != null) {
-
-            DonViEntity donViCha = DonViRepo.findById(request.getDonViCha())
-                    .orElseThrow(() ->
-                            new AppException(ErrorCode.DONVI_NOT_FOUND));
-
-            donVi.setDonViCha(donViCha);
-
-            // Sinh mã đơn vị
-            String maDonVi = childCode.generateChildCode(donViCha);
-            donVi.setMaDonVi(maDonVi);
-
-        } else {
-
-            // Đơn vị gốc (sư đoàn)
-            String maDonVi = childCode.generateRootCode();
-            donVi.setMaDonVi(maDonVi);
+        ChildCode childCode;
+        DonViRepo DonViRepo;
+        DonViMapper donViMapper;
+        @Override
+        public Page<DonViResponse> toUnitsPage(Pageable page) {
+            return DonViRepo.findAllByIsDeleted(false,page)
+                    .map(donViMapper::toResponse);
         }
 
-        donVi.setHoatDong(true);
-        donVi.setIsDeleted(false);
+        @Override
+        public List<DonViResponse> toUnitsList() {
+            return  DonViRepo.findAll().stream()
+                    .map(donViMapper::toResponse).collect(Collectors.toList());
+        }
 
-        DonViEntity saved = DonViRepo.save(donVi);
+        @Override
+        @Transactional
+        public DonViResponse createDonVi(DonviRequest request) {
 
-        return donViMapper.toResponse(saved);
+            DonViEntity donVi = donViMapper.toEntity(request);
+            donVi.setCapDonVi(CapDonVi.valueOf(request.getCapDonVi()));
+            if (request.getDonViCha() != null) {
+
+                DonViEntity donViCha = DonViRepo.findById(request.getDonViCha())
+                        .orElseThrow(() ->
+                                new AppException(ErrorCode.DONVI_NOT_FOUND));
+
+                donVi.setDonViCha(donViCha);
+
+                String maDonVi = childCode.generateChildCode(donViCha);
+                donVi.setMaDonVi(maDonVi);
+
+            } else {
+
+                String maDonVi = childCode.generateRootCode();
+                donVi.setMaDonVi(maDonVi);
+            }
+
+            donVi.setHoatDong(true);
+            donVi.setIsDeleted(false);
+
+            DonViEntity saved = DonViRepo.save(donVi);
+
+            return donViMapper.toResponse(saved);
+        }
+
+        @Override  
+        public DonViResponse updateDonVi(String idDonVi, DonviForm update) {  
+            DonViEntity entity = DonViRepo.findById(idDonVi)  
+                    .orElseThrow(() -> new AppException(ErrorCode.DONVI_NOT_FOUND));  
+        
+            entity.setQuanSoTong(update.getQuanSoTong());  
+            entity.setQuanSoHsqBs(update.getQuanSoHsqBs());  
+            entity.setQuanSoSiQuan(update.getQuanSoSiQuan());  
+            entity.setQuanSoQncn(update.getQuanSoQncn());  
+        
+            if (update.getTenDonvi() != null) {  
+                entity.setTenDonvi(update.getTenDonvi());  
+            }  
+            if (update.getKyhieuDonvi() != null) {  
+                entity.setKyhieuDonvi(update.getKyhieuDonvi());  
+            }  
+            if (update.getCapDonVi() != null) {  
+                entity.setCapDonVi(CapDonVi.valueOf(update.getCapDonVi()));  
+            }  
+            if (update.getDonViCha() != null) {  
+                if (update.getDonViCha().isBlank()) {  
+                    entity.setDonViCha(null);  
+                } else {  
+                    DonViEntity parent = DonViRepo.findById(update.getDonViCha())  
+                            .orElseThrow(() -> new AppException(ErrorCode.DONVI_NOT_FOUND));  
+                    entity.setDonViCha(parent);  
+                }  
+            }  
+        
+            DonViRepo.save(entity);  
+            return donViMapper.toResponse(entity);  
+        }
+
+        @Override
+        public DonViEntity getById(String id) {
+            return DonViRepo.findById(id).orElseThrow(()->new AppException(ErrorCode.DONVI_NOT_FOUND));
+        }
+
     }
-
-    @Override
-    public DonViResponse updateDonVi(String idDonVi, DonviForm update) {
-        DonViEntity donVi=getById(idDonVi);
-        donViMapper.update(donVi,update);
-        donVi.setUpdatedAt(LocalDateTime.now());
-        DonViRepo.save(donVi);
-        return donViMapper.toResponse(donVi);
-    }
-
-    @Override
-    public DonViEntity getById(String id) {
-        return DonViRepo.findById(id).orElseThrow(()->new AppException(ErrorCode.DONVI_NOT_FOUND));
-    }
-
-}

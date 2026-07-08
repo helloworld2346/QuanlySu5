@@ -51,12 +51,6 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     }
 
     @Override
-    public List<TaiKhoanResponse> getAllTaiKhoan() {
-        return taiKhoanRepo.findAll().stream().map(taiKhoanMapper::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public TaiKhoanResponse createdTaiKhoanResponse(TaiKhoanRequest taiKhoanRequest) {
         TaikhoanEntity taikhoanEntity=taiKhoanMapper.toEntity(taiKhoanRequest);
         String Mk=passwordEncoder.encode(taiKhoanRequest.getMatkhau());
@@ -64,6 +58,9 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
                 .ifPresent(account -> {
                     throw new AppException(ErrorCode.ACCOUNT_IS_EXIST);
                 });
+                if (Boolean.TRUE.equals(taikhoanEntity.getKhoa())) {  
+                    throw new AppException(ErrorCode.ACCOUNT_IS_EXIST);  
+                }
         DonViEntity donViEntity=donViService.getById(taiKhoanRequest.getDonVi());
         VaiTroEntity vaiTroEntity=vaiTroService.getRoleById(taiKhoanRequest.getVaiTro());
         taikhoanEntity.setMatKhau(Mk);
@@ -72,5 +69,77 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         taikhoanEntity.setIsDeleted(false);
         taikhoanEntity.setCreatedAt(LocalDateTime.now());
         return taiKhoanMapper.toResponse(taiKhoanRepo.save(taikhoanEntity));
+    }
+
+    @Override  
+    public List<TaiKhoanResponse> getAllTaiKhoan() {  
+        return taiKhoanRepo.findByIsDeletedFalse()  
+                .stream()  
+                .map(taiKhoanMapper::toResponse)
+                .toList();  
+    }  
+  
+    @Override  
+    public TaiKhoanResponse updateTaiKhoan(String idTaiKhoan, TaiKhoanRequest request) {  
+        TaikhoanEntity taiKhoan = taiKhoanRepo  
+                .findByIdTaiKhoanAndIsDeletedFalse(idTaiKhoan)  
+                .orElseThrow(() -> new AppException(ErrorCode.ACCOUNT_NOT_FOUND));  
+  
+  
+        if (request.getTenTaiKhoan() != null) {  
+            taiKhoan.setTenTaiKhoan(request.getTenTaiKhoan());  
+        }  
+  
+        if (request.getVaiTro() != null) {  
+            VaiTroEntity vaiTro = vaiTroService.getRoleById(request.getVaiTro());  
+            taiKhoan.setVaiTro(vaiTro);  
+        }  
+  
+        if (request.getDonVi() != null) {  
+            DonViEntity donVi = donViRepo.findById(request.getDonVi())  
+                    .orElseThrow(() -> new AppException(ErrorCode.DONVI_NOT_FOUND));  
+            taiKhoan.setDonVi(donVi);  
+        }  
+  
+        return taiKhoanMapper.toResponse(taiKhoanRepo.save(taiKhoan)); 
+    }  
+  
+    @Override  
+    public void deleteTaiKhoan(String idTaiKhoan) {  
+        TaikhoanEntity taiKhoan = taiKhoanRepo  
+                .findByIdTaiKhoanAndIsDeletedFalse(idTaiKhoan)  
+                .orElseThrow(() -> new AppException(ErrorCode.ACCOUNT_NOT_FOUND));  
+  
+        taiKhoan.setIsDeleted(true);  
+        taiKhoan.setDeletedAt(LocalDateTime.now());  
+        taiKhoanRepo.save(taiKhoan);  
+    }  
+  
+    @Override  
+    public void resetMatKhau(String idTaiKhoan, String matKhauMoi) {  
+        TaikhoanEntity taiKhoan = taiKhoanRepo  
+                .findByIdTaiKhoanAndIsDeletedFalse(idTaiKhoan)  
+                .orElseThrow(() -> new AppException(ErrorCode.ACCOUNT_NOT_FOUND));  
+  
+        taiKhoan.setMatKhau(passwordEncoder.encode(matKhauMoi));  
+        taiKhoanRepo.save(taiKhoan);  
+    }  
+
+    @Override  
+    public TaiKhoanResponse lockTaiKhoan(String id) {  
+        TaikhoanEntity taiKhoan = taiKhoanRepo  
+            .findByIdTaiKhoanAndIsDeletedFalse(id)  
+            .orElseThrow(() -> new AppException(ErrorCode.ACCOUNT_NOT_FOUND));  
+        taiKhoan.setKhoa(true);  
+        return taiKhoanMapper.toResponse(taiKhoanRepo.save(taiKhoan));  
+    }  
+    
+    @Override  
+    public TaiKhoanResponse unlockTaiKhoan(String id) {  
+        TaikhoanEntity taiKhoan = taiKhoanRepo  
+            .findByIdTaiKhoanAndIsDeletedFalse(id)  
+            .orElseThrow(() -> new AppException(ErrorCode.ACCOUNT_NOT_FOUND));  
+        taiKhoan.setKhoa(false);  
+        return taiKhoanMapper.toResponse(taiKhoanRepo.save(taiKhoan));  
     }
 }
